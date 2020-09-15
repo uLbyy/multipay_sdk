@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: 'versions.gradle'
+
+android {
+    compileSdkVersion deps.android.target_sdk
+    buildToolsVersion deps.android.build_tools
+
+    defaultConfig {
+        applicationId deps.android.app_id
+        minSdkVersion deps.android.min_sdk
+        targetSdkVersion deps.android.target_sdk
+        versionCode generateVersionCode()
+        versionName generateVersionName()
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation deps.kotlin.stdlib
+    implementation deps.androidx.app_compat
+    implementation deps.androidx.ktx
+    implementation deps.ui.constraint
+    implementation deps.ui.material
+    implementation deps.coil
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+@SuppressWarnings("GrMethodMayBeStatic")
+private Integer generateVersionCode() {
+    return deps.android.target_sdk * 1000000 +
+            deps.app_version.major * 10000 +
+            deps.app_version.minor * 100 +
+            deps.app_version.patch
+}
+
+@SuppressWarnings("GrMethodMayBeStatic")
+private String generateVersionName() {
+    String versionName = "${deps.app_version.major}.${deps.app_version.minor}.${deps.app_version.patch}"
+    if (deps.app_version.classifier == null) {
+        if (deps.app_version.is_snapshot) {
+            deps.app_version.classifier = "SNAPSHOT"
+        }
+    }
+
+    if (deps.app_version.classifier != null) {
+        versionName += "-" + deps.app_version.classifier
+    }
+    return versionName
+}

@@ -1,8 +1,8 @@
-package com.inventiv.multipaysdk
+package com.inventiv.sample
 
 import android.app.Application
 
-class MultiPaySdkApp : Application() {
+class SampleApp : Application() {
 
     override fun onCreate() {
         super.onCreate()

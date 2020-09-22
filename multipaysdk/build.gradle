@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: 'versions.gradle'
@@ -8,12 +8,12 @@ android {
     buildToolsVersion deps.android.build_tools
 
     defaultConfig {
-        applicationId deps.android.app_id
         minSdkVersion deps.android.min_sdk
         targetSdkVersion deps.android.target_sdk
         versionCode generateVersionCode()
         versionName generateVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -31,7 +31,9 @@ dependencies {
     implementation deps.androidx.ktx
     implementation deps.ui.constraint
     implementation deps.ui.material
-    implementation deps.coil
+    implementation deps.network.volley
+    implementation deps.network.moshi
+    //implementation deps.coil
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

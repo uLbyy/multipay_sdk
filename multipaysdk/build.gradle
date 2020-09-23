@@ -22,6 +22,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -32,7 +36,7 @@ dependencies {
     implementation deps.ui.constraint
     implementation deps.ui.material
     implementation deps.network.volley
-    implementation deps.network.moshi
+    implementation deps.network.gson
     //implementation deps.coil
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

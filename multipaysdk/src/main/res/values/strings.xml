@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MultiPay SDK</string>
+
+    <string name="Login.EmailorGSM">E-POSTA veya CEP TELEFONU</string>
+    <string name="Login.Password">ŞİFRENİZ</string>
+    <string name="Login.Button">GİRİŞ YAP</string>
+    <string name="Login.ForgetPasswordText"><i>Şifrenizi unuttuysanız buraya basarak <b>tekrar şifre</b> oluşturabilirsiniz.</i></string>
+    <string name="Login.Activation.Text">Aktivasyon Koduyla Gir</string>
+
 </resources>

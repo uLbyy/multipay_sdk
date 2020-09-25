@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MultiPay SDK ENGLISH</string>
+    <string name="app_name">MultiPay SDK EN</string>
+
+    <string name="Login.EmailorGSM">E-MAIL or CELL PHONE</string>
+    <string name="Login.Password">PASSWORD</string>
+    <string name="Login.Button">LOGIN</string>
+    <string name="Login.ForgetPasswordText"><i>If you forget your password, you can create it again by <b>pressing here.</b></i></string>
+    <string name="Login.Activation.Text">Login With Activation Code</string>
+
 </resources>

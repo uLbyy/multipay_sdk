@@ -2,10 +2,17 @@
 <resources>
     <string name="app_name">MultiPay SDK EN</string>
 
-    <string name="Login.EmailorGSM">E-MAIL or CELL PHONE</string>
-    <string name="Login.Password">PASSWORD</string>
-    <string name="Login.Button">LOGIN</string>
-    <string name="Login.ForgetPasswordText"><i>If you forget your password, you can create it again by <b>pressing here.</b></i></string>
-    <string name="Login.Activation.Text">Login With Activation Code</string>
+    <string name="login_email_or_gsm">E-MAIL or CELL PHONE</string>
+    <string name="login_password">PASSWORD</string>
+    <string name="login_button">LOGIN</string>
+    <string name="login_forget_password_text"><i>If you forget your password, you can create it again by <b>pressing here.</b></i></string>
+    <string name="login_activation_text">Login With Activation Code</string>
+
+    <string name="validation_name">Please check your name.</string>
+    <string name="validation_surname">Please check your surname.</string>
+    <string name="validation_email">E-mail format is incorrect. Please check your e-mail.</string>
+    <string name="validation_password">Please enter your cipher with at least one digit and a letter, at least 8 characters in length.</string>
+    <string name="validation_gsm">Phone number format is incorrect. Please enter your phone number without leading zero and 10 digits in length.</string>
+    <string name="validation_email_or_gsm">Check that your email / GSM number is valid.</string>
 
 </resources>

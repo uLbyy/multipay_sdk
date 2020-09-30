@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.inventiv.multipaysdk.MultiPaySdk
 import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.R
@@ -14,6 +15,7 @@ import com.inventiv.multipaysdk.data.model.request.LoginGsm
 import com.inventiv.multipaysdk.data.model.request.LoginInfoGsm
 import com.inventiv.multipaysdk.data.model.response.Result
 import com.inventiv.multipaysdk.databinding.FragmentLoginBinding
+import com.inventiv.multipaysdk.repository.AuthenticationRepository
 import com.inventiv.multipaysdk.util.Formatter
 import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
 import com.inventiv.multipaysdk.util.hideKeyboard
@@ -25,6 +27,9 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private lateinit var maskWatcher: MaskWatcher
     private lateinit var multiPaySdkListener: MultiPaySdkListener
 
+    private val viewModel by viewModels<LoginViewModel> {
+        LoginViewModelFactory(AuthenticationRepository(MultiPaySdk.getComponent().apiService()))
+    }
 
     companion object {
         fun newInstance(multiPaySdkListener: MultiPaySdkListener): LoginFragment =

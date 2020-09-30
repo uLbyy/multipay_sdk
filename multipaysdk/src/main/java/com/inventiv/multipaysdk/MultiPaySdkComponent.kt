@@ -1,6 +1,7 @@
 package com.inventiv.multipaysdk
 
 import android.content.Context
+import androidx.annotation.StringRes
 import com.google.gson.Gson
 import com.inventiv.multipaysdk.data.api.ApiService
 import com.inventiv.multipaysdk.data.api.NetworkManager
@@ -34,4 +35,8 @@ internal class MultiPaySdkComponent(
     }
 
     fun gson() = Gson()
+
+    fun getString(@StringRes resId: Int, vararg args: Any): String {
+        return appContext.getString(resId, args)
+    }
 }

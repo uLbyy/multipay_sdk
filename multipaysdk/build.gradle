@@ -26,6 +26,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -37,7 +42,7 @@ dependencies {
     implementation deps.ui.material
     implementation deps.network.volley
     implementation deps.network.gson
-    //implementation deps.coil
+    implementation deps.androidx.fragment
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

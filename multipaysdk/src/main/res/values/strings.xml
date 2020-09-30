@@ -2,10 +2,17 @@
 <resources>
     <string name="app_name">MultiPay SDK</string>
 
-    <string name="Login.EmailorGSM">E-POSTA veya CEP TELEFONU</string>
-    <string name="Login.Password">ŞİFRENİZ</string>
-    <string name="Login.Button">GİRİŞ YAP</string>
-    <string name="Login.ForgetPasswordText"><i>Şifrenizi unuttuysanız buraya basarak <b>tekrar şifre</b> oluşturabilirsiniz.</i></string>
-    <string name="Login.Activation.Text">Aktivasyon Koduyla Gir</string>
+    <string name="login_email_or_gsm">E-POSTA veya CEP TELEFONU</string>
+    <string name="login_password">ŞİFRENİZ</string>
+    <string name="login_button">GİRİŞ YAP</string>
+    <string name="login_forget_password_text"><i>Şifrenizi unuttuysanız buraya basarak <b>tekrar şifre</b> oluşturabilirsiniz.</i></string>
+    <string name="login_activation_text">Aktivasyon Koduyla Gir</string>
+
+    <string name="validation_name">Lütfen adınızı kontrol ediniz.</string>
+    <string name="validation_surname">Lütfen soyadınızı kontrol ediniz.</string>
+    <string name="validation_email">Lütfen e-posta adresinizin geçerli olduğunu kontrol ediniz.</string>
+    <string name="validation_password">Lütfen şifrenizi en az bir rakam ve bir harf içerecek şekilde, en az 8 karakter uzunluğunda giriniz.</string>
+    <string name="validation_gsm">Cep telefonu hatalıdır. Lütfen cep telefonu numaranızı başında sıfır olmadan ve 10 rakam uzunluğunda giriniz.</string>
+    <string name="validation_email_or_gsm">E-postanizin / GSM numaranızın geçerli olduğunu kontrol ediniz.</string>
 
 </resources>

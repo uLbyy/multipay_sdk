@@ -8,4 +8,4 @@ import kotlinx.android.parcel.Parcelize
 internal data class LoginEmail(
     @field:SerializedName("loginInfo")
     var loginInfoEmail: LoginInfoEmail
-) : BaseRequest(), Parcelable
+) : LoginRequest(), Parcelable

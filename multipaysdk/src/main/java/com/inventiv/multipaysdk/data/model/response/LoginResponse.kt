@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class LoginResponse(
+internal data class LoginResponse(
     @field:SerializedName("OpyId")
     var opyId: String?,
 

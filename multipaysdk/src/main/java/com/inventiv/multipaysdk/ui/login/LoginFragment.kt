@@ -4,31 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.android.volley.Response
-import com.inventiv.multipaysdk.MultiPay
+import com.inventiv.multipaysdk.MultiPaySdk
+import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
-import com.inventiv.multipaysdk.data.api.RequestManager
+import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
+import com.inventiv.multipaysdk.data.api.error.ApiError
 import com.inventiv.multipaysdk.data.model.request.LoginGsm
 import com.inventiv.multipaysdk.data.model.request.LoginInfoGsm
-import com.inventiv.multipaysdk.data.model.response.LoginResponse
+import com.inventiv.multipaysdk.data.model.response.Result
 import com.inventiv.multipaysdk.databinding.FragmentLoginBinding
 import com.inventiv.multipaysdk.util.Formatter
+import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
 import com.inventiv.multipaysdk.util.hideKeyboard
 import com.inventiv.multipaysdk.view.listener.MaskWatcher
 
 
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private lateinit var maskWatcher: MaskWatcher
+    private lateinit var multiPaySdkListener: MultiPaySdkListener
+
 
     companion object {
-        fun newInstance(): LoginFragment = LoginFragment().apply {
-            val args = Bundle().apply {
+        fun newInstance(multiPaySdkListener: MultiPaySdkListener): LoginFragment =
+            LoginFragment().apply {
+                val args = Bundle().apply {
+                    putSerializable(KEY_MULTIPAY_SDK_LISTENER, multiPaySdkListener)
+                }
+                arguments = args
             }
-            arguments = args
-        }
     }
 
     override fun createBinding(
@@ -39,6 +44,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        multiPaySdkListener =
+            arguments?.getSerializable(KEY_MULTIPAY_SDK_LISTENER) as MultiPaySdkListener
         val maskPhone = getString(R.string.mask_phone)
         maskWatcher = MaskWatcher(requireBinding().textInputEditEmailOrGsm, maskPhone)
         requireBinding().textInputEditEmailOrGsm.addTextChangedListener(maskWatcher)
@@ -58,24 +65,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         val emailOrGsm = requireBinding().textInputEditEmailOrGsm.text.toString().trim()
         val password = requireBinding().textInputEditPassword.text.toString().trim()
-        val url = "https://test-multinet-multipay-api.inventiv.services/MultiUService/SdkLogin"
-        val headers = mutableMapOf<String, String>()
-        headers["device-app-version"] = "4.4.5"
         val loginRequestBody =
             LoginGsm(LoginInfoGsm(Formatter.servicePhoneNumber(emailOrGsm), password))
-        val loginRequest = RequestManager.GsonRequest<LoginGsm, LoginResponse>(
-            url,
-            loginRequestBody,
-            LoginResponse::class.java,
-            headers,
-            Response.Listener<LoginResponse> { response ->
-                Toast.makeText(requireActivity(), response.toString(), Toast.LENGTH_LONG).show()
-            },
-            Response.ErrorListener {
-                Toast.makeText(requireActivity(), "FAIL : ${it.message}", Toast.LENGTH_LONG).show()
-            }
-        )
 
-        MultiPay.addToRequestQueue(loginRequest)
+        MultiPaySdk.getComponent().apiService()
+            .loginRequest(loginRequestBody, object : NetworkCallback<Result> {
+                override fun onSuccess(response: Result?) {
+                    multiPaySdkListener.onSuccess(response)
+                }
+
+                override fun onError(error: ApiError) {
+                    multiPaySdkListener.onFailure(error.message, error.statusCode)
+                }
+            })
+
     }
 }

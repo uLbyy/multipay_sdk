@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class LoginEmail(
+internal data class LoginEmail(
     @field:SerializedName("loginInfo")
     var loginInfoEmail: LoginInfoEmail
 ) : BaseRequest(), Parcelable

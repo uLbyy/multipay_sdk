@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 import java.text.DecimalFormat
 
 @Parcelize
-data class MoneyResponse(
+internal data class MoneyResponse(
     @SerializedName("Money")
     var money: Double = 0.0,
 

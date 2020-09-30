@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import java.util.*
 
-class MaskWatcher(editText: EditText, mask: String) : TextWatcher {
+internal class MaskWatcher(editText: EditText, mask: String) : TextWatcher {
     private var isSpecialCharsReplaced = false
     private var isRunning = false
     private var isDeleting = false

@@ -1,6 +1,6 @@
 package com.inventiv.multipaysdk.util
 
-object StringUtils {
+internal object StringUtils {
 
     const val EMPTY = ""
     const val SPACE = " "

@@ -7,6 +7,8 @@ import com.inventiv.multipaysdk.data.model.response.Result
 
 internal class ApiService(private val networkManager: NetworkManager) {
 
+    fun networkManager() = networkManager
+
     fun loginRequest(
         loginRequest: LoginRequest,
         networkCallback: NetworkCallback<Result>

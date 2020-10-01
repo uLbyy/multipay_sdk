@@ -39,8 +39,8 @@ internal class GsonRequest<I : BaseRequest, O : BaseResponse>(
     override fun deliverResponse(response: O) = listener.onResponse(response)
 
     override fun parseNetworkResponse(response: NetworkResponse?): Response<O> {
-        return try {
 
+        return try {
             val json = String(
                 response?.data ?: ByteArray(0),
                 Charset.forName(HttpHeaderParser.parseCharset(response?.headers))
@@ -49,8 +49,7 @@ internal class GsonRequest<I : BaseRequest, O : BaseResponse>(
             val model = MultiPaySdk.getComponent().gson().fromJson(json, responseClass)
 
             Response.success(
-                model,
-                HttpHeaderParser.parseCacheHeaders(response)
+                model, HttpHeaderParser.parseCacheHeaders(response)
             )
 
         } catch (e: UnsupportedEncodingException) {

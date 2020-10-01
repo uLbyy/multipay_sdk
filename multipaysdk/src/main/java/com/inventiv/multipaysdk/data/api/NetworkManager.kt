@@ -25,7 +25,6 @@ internal class NetworkManager(private val volleyManager: VolleyManager) {
         private const val HEADER_KEY_OS_VERSION = "device-os-version"
 
         private const val HEADER_VALUE_OS_VERSION = "Android"
-
     }
 
     fun <T : BaseResponse> sendRequest(

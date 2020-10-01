@@ -39,6 +39,7 @@ internal class ApiError : Exception {
         const val ERROR_INBOX_DOES_NOT_HAVE_NEXT_PAGE = 9996
         const val ERROR_INVALID_PARAMETERS = 9995
         const val ERROR_INVALID_RESPONSE = 9994
+        const val GENERAL_ERROR_MESSAGE = "An error occurred."
 
         fun noApiKeyInstance(): ApiError {
             val error =
@@ -85,7 +86,7 @@ internal class ApiError : Exception {
         }
 
         @JvmOverloads
-        fun generalInstance(errorMessage: String = "An error occurred."): ApiError {
+        fun generalInstance(errorMessage: String = GENERAL_ERROR_MESSAGE): ApiError {
             val error = ApiError(errorMessage)
             error.errorCode = ERROR_GENERAL
             return error
@@ -114,7 +115,7 @@ internal class ApiError : Exception {
             statusCode: Int,
             result: Result?
         ): ApiError {
-            val error = ApiError(errorMessage ?: "An Error Occured")
+            val error = ApiError(errorMessage ?: GENERAL_ERROR_MESSAGE)
             error.errorCode = ERROR_SERVER
             error.statusCode = statusCode
             error.result = result

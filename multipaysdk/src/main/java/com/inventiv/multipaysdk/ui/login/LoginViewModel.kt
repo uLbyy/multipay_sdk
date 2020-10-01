@@ -9,8 +9,9 @@ import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.response.LoginResponse
 import com.inventiv.multipaysdk.repository.AuthenticationRepository
 
-internal class LoginViewModel(private val authenticationRepository: AuthenticationRepository) :
-    ViewModel() {
+internal class LoginViewModel(
+    private val authenticationRepository: AuthenticationRepository
+) : ViewModel() {
 
     private val _login = MutableLiveData<Pair<String, String>>()
 

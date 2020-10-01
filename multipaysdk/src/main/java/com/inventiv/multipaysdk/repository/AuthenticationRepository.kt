@@ -23,6 +23,7 @@ internal class AuthenticationRepository(private val apiService: ApiService) {
     private val loginResult = MediatorLiveData<Event<Resource<LoginResponse>>>()
 
     fun login(emailOrGsm: String, password: String): LiveData<Event<Resource<LoginResponse>>> {
+
         val validEmail: Boolean = Validator.validEmail(emailOrGsm)
         val validGsm: Boolean = Validator.validGsmWithMask(emailOrGsm)
         val validPassword: Boolean = Validator.validPassword(password)
@@ -36,22 +37,22 @@ internal class AuthenticationRepository(private val apiService: ApiService) {
 
         if ((validEmail || validGsm) && validPassword) {
 
-            apiService
-                .loginRequest(loginRequest, object : NetworkCallback<Result> {
-                    override fun onSuccess(response: Result?) {
-                        val gson = MultiPaySdk.getComponent().gson()
-                        val loginResponse =
-                            gson.fromJson<LoginResponse>(
-                                response?.result,
-                                LoginResponse::class.java
-                            )
-                        loginResult.postValue(Event(Resource.Success(loginResponse)))
-                    }
+            loginResult.postValue(Event(Resource.Loading()))
 
-                    override fun onError(error: ApiError) {
-                        loginResult.postValue(Event(Resource.Failure(error.message)))
-                    }
-                })
+            apiService.loginRequest(loginRequest, object : NetworkCallback<Result> {
+                override fun onSuccess(response: Result?) {
+                    val gson = MultiPaySdk.getComponent().gson()
+                    val loginResponse = gson.fromJson<LoginResponse>(
+                        response?.result,
+                        LoginResponse::class.java
+                    )
+                    loginResult.postValue(Event(Resource.Success(loginResponse)))
+                }
+
+                override fun onError(error: ApiError) {
+                    loginResult.postValue(Event(Resource.Failure(error.message)))
+                }
+            })
 
         } else {
 

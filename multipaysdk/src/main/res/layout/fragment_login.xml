@@ -107,4 +107,8 @@
 
     </ScrollView>
 
+    <include
+        android:id="@+id/login_progress"
+        layout="@layout/layout_progress" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

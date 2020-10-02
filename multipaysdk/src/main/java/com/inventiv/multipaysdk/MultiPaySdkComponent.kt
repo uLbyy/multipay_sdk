@@ -39,4 +39,6 @@ internal class MultiPaySdkComponent(
     fun getString(@StringRes resId: Int, vararg args: Any): String {
         return appContext.getString(resId, args)
     }
+
+    fun volleyManager() = volleyManager
 }

@@ -64,11 +64,7 @@ internal class MultiPayNetworkImageView(context: Context, attrs: AttributeSet) :
     }
 
     fun setImageUrl(url: String?) {
-        setImageUrl(
-            url,
-            MultiPaySdk.getComponent().apiService().networkManager().volleyManager()
-                .getVolleyImageLoader()
-        )
+        setImageUrl(url, MultiPaySdk.getComponent().volleyManager().getVolleyImageLoader())
     }
 
     fun setErrorImage(@DrawableRes resId: Int) {

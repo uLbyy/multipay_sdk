@@ -8,7 +8,7 @@
         <item name="colorPrimaryVariant">@color/como</item>
         <item name="colorSecondary">@color/blackcurrant</item>
         <item name="colorSecondaryVariant">@color/dark_green</item>
-        <item name="android:colorBackground">@color/solitude</item>
+        <item name="android:colorBackground">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorError">@color/carmine</item>
         <item name="colorOnPrimary">@color/white</item>

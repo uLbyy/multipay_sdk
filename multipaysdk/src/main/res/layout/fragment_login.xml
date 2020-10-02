@@ -26,7 +26,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_email_or_gsm"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_huge"
@@ -48,13 +47,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_password"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_input_email_or_gsm">
+                app:layout_constraintTop_toBottomOf="@+id/text_input_email_or_gsm"
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_input_edit_password"

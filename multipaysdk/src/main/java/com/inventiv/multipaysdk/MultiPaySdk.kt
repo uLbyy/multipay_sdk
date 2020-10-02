@@ -10,14 +10,22 @@ object MultiPaySdk {
 
     private lateinit var multiPaySdkComponent: MultiPaySdkComponent
 
+    internal fun getComponent() = multiPaySdkComponent
+
     @JvmOverloads
     @JvmStatic
-    fun init(context: Context, language: Language? = null) {
-        this.multiPaySdkComponent = MultiPaySdkComponent(context, language)
+    fun init(
+        context: Context,
+        merchant_token: String,
+        environment: Environment = Environment.PRODUCTION,
+        language: Language? = null
+    ) {
+        this.multiPaySdkComponent =
+            MultiPaySdkComponent(context, merchant_token, environment, language)
     }
 
     @JvmStatic
-    internal fun getComponent() = multiPaySdkComponent
+    fun setLanguage(language: Language) = getComponent().setLanguage(language)
 
     @JvmStatic
     fun startSDKForSubmitConsumer(context: Context, listener: MultiPaySdkListener) {

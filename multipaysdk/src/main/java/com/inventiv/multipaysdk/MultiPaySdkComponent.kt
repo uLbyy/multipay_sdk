@@ -7,10 +7,13 @@ import com.inventiv.multipaysdk.data.api.ApiService
 import com.inventiv.multipaysdk.data.api.NetworkManager
 import com.inventiv.multipaysdk.data.api.VolleyManager
 import com.inventiv.multipaysdk.data.model.type.Language
+import com.inventiv.multipaysdk.util.Logger
 import com.inventiv.multipaysdk.util.getLanguage
 
 internal class MultiPaySdkComponent(
     private val appContext: Context,
+    private val merchantToken: String,
+    private val environment: Environment,
     private var language: Language?
 ) {
     private val volleyManager: VolleyManager
@@ -20,9 +23,14 @@ internal class MultiPaySdkComponent(
     init {
         this.language = getLanguage(appContext, language)
         volleyManager = VolleyManager(appContext)
-        networkManager = NetworkManager(volleyManager)
+        networkManager = NetworkManager(volleyManager, environment)
         apiService = ApiService(networkManager)
+        Logger.logging(BuildConfig.DEBUG)
     }
+
+    fun environment() = environment
+
+    fun merchantToken() = merchantToken
 
     fun apiService() = apiService
 

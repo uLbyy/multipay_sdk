@@ -1,7 +1,6 @@
 package com.inventiv.multipaysdk.data.api
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.NoConnectionError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -16,7 +15,8 @@ import com.inventiv.multipaysdk.data.api.error.VolleyCancelError
 import com.inventiv.multipaysdk.data.api.error.VolleyParseError
 import com.inventiv.multipaysdk.data.model.request.BaseRequest
 import com.inventiv.multipaysdk.data.model.response.BaseResponse
-
+import com.inventiv.multipaysdk.data.model.type.RequestMethod
+import com.inventiv.multipaysdk.util.Logger
 import java.io.File
 
 internal class VolleyManager(private val context: Context) {
@@ -60,7 +60,8 @@ internal class VolleyManager(private val context: Context) {
         requestPath: String,
         headers: MutableMap<String, String>,
         responseModel: Class<T>,
-        callback: NetworkCallback<T>
+        callback: NetworkCallback<T>,
+        requestMethod: RequestMethod
     ) {
         val gsonRequest = GsonRequest(
             "$baseUrl${requestPath}",
@@ -68,7 +69,7 @@ internal class VolleyManager(private val context: Context) {
             responseModel,
             headers,
             Response.Listener { response ->
-                Log.d("VolleyNetworkAdapter", "sendRequest Response: $response")
+                Logger.d("Response received : $response")
                 callback.onSuccess(response)
             },
             Response.ErrorListener { volleyError ->
@@ -100,16 +101,17 @@ internal class VolleyManager(private val context: Context) {
                         }
                     }
                 }
-                Log.d("VolleyNetworkAdapter", "sendRequest Error: $apiError")
+                Logger.d("Error on receiving response: $apiError")
                 callback.onError(apiError)
-            }
+            },
+            requestMethod
         )
 
         gsonRequest.headers.putAll(headers)
         gsonRequest.tag = REQUEST_TAG
         gsonRequest.setShouldCache(false)
 
-        Log.d("VolleyNetworkAdapter", "sendRequest Start: $gsonRequest")
+        Logger.d("Sending request: $gsonRequest")
         requestQueue.add(gsonRequest)
     }
 

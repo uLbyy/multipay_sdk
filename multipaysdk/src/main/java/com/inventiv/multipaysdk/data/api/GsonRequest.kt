@@ -11,6 +11,7 @@ import com.inventiv.multipaysdk.data.api.NetworkManager.Companion.DEFAULT_TIMEOU
 import com.inventiv.multipaysdk.data.api.error.VolleyParseError
 import com.inventiv.multipaysdk.data.model.request.BaseRequest
 import com.inventiv.multipaysdk.data.model.response.BaseResponse
+import com.inventiv.multipaysdk.data.model.type.RequestMethod
 
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
@@ -20,14 +21,15 @@ internal class GsonRequest<I : BaseRequest, O : BaseResponse>(
     private val requestClass: I,
     private val responseClass: Class<O>,
     private val headers: MutableMap<String, String>?,
-    private val listener: Response.Listener<O>,
-    errorListener: Response.ErrorListener
+    private val responseListener: Response.Listener<O>,
+    private val responseErrorListener: Response.ErrorListener,
+    private val requestMethod: RequestMethod
 ) : JsonRequest<O>(
-    Method.POST,
+    requestMethod.method,
     requestUrl,
     MultiPaySdk.getComponent().gson().toJson(requestClass),
-    listener,
-    errorListener
+    responseListener,
+    responseErrorListener
 ) {
 
     init {
@@ -36,7 +38,7 @@ internal class GsonRequest<I : BaseRequest, O : BaseResponse>(
 
     override fun getHeaders(): MutableMap<String, String> = headers ?: super.getHeaders()
 
-    override fun deliverResponse(response: O) = listener.onResponse(response)
+    override fun deliverResponse(response: O) = responseListener.onResponse(response)
 
     override fun parseNetworkResponse(response: NetworkResponse?): Response<O> {
 
@@ -60,6 +62,10 @@ internal class GsonRequest<I : BaseRequest, O : BaseResponse>(
     }
 
     override fun toString(): String {
-        return "GsonRequest(requestUrl='$requestUrl', requestClass=$requestClass, responseClass=$responseClass, headers=$headers)"
+        return "GsonRequest(requestUrl=$requestUrl, " +
+                "requestMethod=$requestMethod, " +
+                "requestClass=( $requestClass, appToken=${requestClass.appToken} " +
+                "languageCode=${requestClass.languageCode} requestId=${requestClass.requestId} ), " +
+                "responseClass=$responseClass, headers=$headers)"
     }
 }

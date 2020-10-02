@@ -11,8 +11,11 @@ import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
+import com.inventiv.multipaysdk.data.model.type.OtpDirectionFrom
 import com.inventiv.multipaysdk.databinding.FragmentLoginBinding
 import com.inventiv.multipaysdk.repository.AuthenticationRepository
+import com.inventiv.multipaysdk.ui.otp.OtpActivity
+import com.inventiv.multipaysdk.ui.otp.OtpNavigationArgs
 import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
 import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
 import com.inventiv.multipaysdk.util.hideKeyboard
@@ -55,6 +58,15 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         requireBinding().textInputEditEmailOrGsm.addTextChangedListener(maskWatcher)
         requireBinding().buttonLogin.setOnClickListener {
             loginClicked()
+        }
+        requireBinding().buttonActivationCode.setOnClickListener {
+            startActivity(
+                OtpActivity.newIntent(
+                    requireActivity(),
+                    OtpNavigationArgs("NhgtrN3BPUq0Wbp3WdwLNg", "5335600090", 200),
+                    OtpDirectionFrom.CREATE_CARD
+                )
+            )
         }
     }
 

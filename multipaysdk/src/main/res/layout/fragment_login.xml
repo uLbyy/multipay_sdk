@@ -95,7 +95,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:text="@string/login_activation_text"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

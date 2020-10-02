@@ -16,6 +16,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MultiPaySdk" />
+        <activity
+            android:name=".ui.otp.OtpActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.MultiPaySdk" />
 
         <activity
             android:name=".ui.addcard.AddCardActivity"

@@ -15,4 +15,12 @@
     <string name="validation_gsm">Phone number format is incorrect. Please enter your phone number without leading zero and 10 digits in length.</string>
     <string name="validation_email_or_gsm">Check that your email / GSM number is valid.</string>
 
+    <string name="digit_number" translatable="false">0123456789</string>
+    <string name="otp_description">Please enter password which is sent to phone with number %1$s</string>
+    <string name="otp_description_gsm">Enter the 6-digit password from your mobile phone number %1$s</string>
+    <string name="otp_remaining_time">%1$s seconds left</string>
+    <string name="otp_resend">Send SMS again</string>
+    <string name="otp_verify">VERIFY</string>
+
+
 </resources>

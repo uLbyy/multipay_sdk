@@ -12,7 +12,7 @@ import com.inventiv.multipaysdk.util.getLanguage
 
 internal class MultiPaySdkComponent(
     private val appContext: Context,
-    private val merchantToken: String,
+    private var merchantToken: String,
     private val environment: Environment,
     private var language: Language?
 ) {
@@ -31,6 +31,10 @@ internal class MultiPaySdkComponent(
     fun environment() = environment
 
     fun merchantToken() = merchantToken
+
+    fun setMerchantToken(merchantToken: String) {
+        this.merchantToken = merchantToken
+    }
 
     fun apiService() = apiService
 

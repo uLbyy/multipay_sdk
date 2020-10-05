@@ -25,7 +25,7 @@ internal data class MoneyResponse(
     @SerializedName("IsCountable")
     var isCountable: Int = 0
 
-) : Comparable<MoneyResponse>, Parcelable {
+) : Comparable<MoneyResponse>, Parcelable, BaseResponse {
 
     init {
         val moneyDouble: Double = money / MONEY_DIVISION

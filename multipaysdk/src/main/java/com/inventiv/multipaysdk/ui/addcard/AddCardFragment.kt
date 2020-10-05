@@ -8,9 +8,13 @@ import androidx.fragment.app.viewModels
 import com.inventiv.multipaysdk.MultiPaySdk
 import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.base.BaseFragment
+import com.inventiv.multipaysdk.data.model.EventObserver
+import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.databinding.FragmentAddCardBinding
 import com.inventiv.multipaysdk.repository.CardRepository
 import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
+import com.inventiv.multipaysdk.util.hideKeyboard
+import com.inventiv.multipaysdk.util.showSnackBarAlert
 
 internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>() {
 
@@ -38,7 +42,40 @@ internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        subscribeCreateMultinetCard()
         multiPaySdkListener =
             arguments?.getSerializable(KEY_MULTIPAY_SDK_LISTENER) as MultiPaySdkListener
+        viewModel.createMultinetCard("6656900006030610", "524", "denemetest")
+    }
+
+    private fun subscribeCreateMultinetCard() {
+        viewModel.createMultinetCardResult.observe(viewLifecycleOwner, EventObserver { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    setLayoutProgressVisibility(View.VISIBLE)
+                }
+                is Resource.Success -> {
+                    setLayoutProgressVisibility(View.GONE)
+                }
+                is Resource.Failure -> {
+                    showSnackBarAlert(resource.message)
+                    setLayoutProgressVisibility(View.GONE)
+                }
+            }
+        })
+    }
+
+    private fun setLayoutProgressVisibility(visibility: Int) {
+        requireBinding().addCardProgress.layoutProgress.visibility = visibility
+    }
+
+    private fun createMultinetCard() {
+        requireBinding().textInputCardNumber.hideKeyboard()
+        requireBinding().textInputCvv.hideKeyboard()
+        requireBinding().textInputCardAlias.hideKeyboard()
+        val cardNumber = requireBinding().textInputEditCardNumber.text.toString().trim()
+        val cvv = requireBinding().textInputEditCvv.text.toString().trim()
+        val cardAlias = requireBinding().textInputEditCardAlias.text.toString().trim()
+        viewModel.createMultinetCard(cardNumber, cvv, cardAlias)
     }
 }

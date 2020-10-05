@@ -14,6 +14,7 @@ import com.inventiv.multipaysdk.data.model.request.LoginInfoEmail
 import com.inventiv.multipaysdk.data.model.request.LoginInfoGsm
 import com.inventiv.multipaysdk.data.model.response.LoginResponse
 import com.inventiv.multipaysdk.data.model.response.Result
+import com.inventiv.multipaysdk.data.model.singleton.MultiPayUser
 import com.inventiv.multipaysdk.data.model.type.ValidationErrorType
 import com.inventiv.multipaysdk.util.Formatter
 import com.inventiv.multipaysdk.util.Validator
@@ -46,6 +47,8 @@ internal class AuthenticationRepository(private val apiService: ApiService) {
                         response?.result,
                         LoginResponse::class.java
                     )
+                    MultiPayUser.loginReponse = loginResponse
+                    MultiPaySdk.getComponent().setMerchantToken(MultiPayUser.appTokenAfterLogin)
                     loginResult.postValue(Event(Resource.Success(loginResponse)))
                 }
 

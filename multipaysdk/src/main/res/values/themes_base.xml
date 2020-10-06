@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Base.Theme.App" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">
             ?android:attr/colorBackground
         </item>
@@ -34,7 +34,7 @@
         <item name="colorPrimaryVariant">@color/como</item>
         <item name="colorSecondary">@color/blackcurrant</item>
         <item name="colorSecondaryVariant">@color/dark_green</item>
-        <item name="android:colorBackground">@color/solitude</item>
+        <item name="android:colorBackground">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorError">@color/carmine</item>
         <item name="colorOnPrimary">@color/white</item>

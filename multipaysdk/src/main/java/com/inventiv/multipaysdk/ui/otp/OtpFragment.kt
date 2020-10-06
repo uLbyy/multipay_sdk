@@ -60,6 +60,12 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        title(R.string.otp_resend)
+        toolbarBack()
+    }
+
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,7 +93,6 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
     }
 
     private fun setupAndStartCountDownTimer() {
-        requireBinding().buttonResend.alpha = 0.3f
         requireBinding().buttonResend.isClickable = false
         val seconds = otpNavigationArgs?.remainingTime?.toLong() ?: 100L
         countDownTimer = object : CountDownTimer(TimeUnit.SECONDS.toMillis(seconds), 1000) {
@@ -101,7 +106,6 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
             }
 
             override fun onFinish() {
-                requireBinding().buttonResend.alpha = 1f
                 requireBinding().buttonResend.isClickable = true
             }
         }

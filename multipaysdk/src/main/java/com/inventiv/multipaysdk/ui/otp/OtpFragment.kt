@@ -62,7 +62,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
 
     override fun onResume() {
         super.onResume()
-        title(R.string.otp_resend)
+        showToolbar()
         toolbarBack()
     }
 

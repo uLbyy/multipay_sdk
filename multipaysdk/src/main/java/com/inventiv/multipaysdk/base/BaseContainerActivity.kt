@@ -8,6 +8,7 @@ import com.inventiv.multipaysdk.MultiPaySdk
 import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.util.addFragment
 import com.inventiv.multipaysdk.util.updateBaseContextLocale
+import kotlinx.android.synthetic.main.activity_common.*
 
 internal abstract class BaseContainerActivity : AppCompatActivity() {
 
@@ -31,6 +32,10 @@ internal abstract class BaseContainerActivity : AppCompatActivity() {
         if (fragment == null) {
             addFragment(fragment(), R.id.layout_container)
         }
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
     }
 
     protected abstract fun fragment(): Fragment

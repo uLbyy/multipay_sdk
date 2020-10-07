@@ -1,5 +1,6 @@
 package com.inventiv.multipaysdk.util
 
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -25,9 +26,6 @@ fun Fragment.toolbarClose() {
 }
 
 fun Fragment.toolbarBack() {
-    // val typedValueAttr = TypedValue()
-    // context?.theme?.resolveAttribute(android.R.attr.homeAsUpIndicator, typedValueAttr, true)
-    // toolbarIcon(typedValueAttr.resourceId)
     toolbarIcon(R.drawable.ic_nav_back)
 }
 
@@ -35,3 +33,12 @@ fun Fragment.toolbarIcon(drawableId: Int) {
     val drawable = ContextCompat.getDrawable(requireContext(), drawableId)
     toolbar().navigationIcon = drawable
 }
+
+fun Fragment.showToolbar(isVisible: Boolean = true) {
+    toolbar().visibility = if (isVisible) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+

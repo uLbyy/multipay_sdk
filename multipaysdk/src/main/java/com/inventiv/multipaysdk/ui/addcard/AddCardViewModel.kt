@@ -24,12 +24,12 @@ internal class AddCardViewModel(
             }
 
     fun createMultinetCard(cardNumber: String, cvv: String, cardAlias: String) {
-        val loginResponse = MultiPayUser.loginReponse
+        val loginResponse = "5331231212"
         _createMultinetCard.value = CreateMultinetCard(
             cardNumber = cardNumber,
             cvv = cvv,
             cardAlias = cardAlias,
-            phoneNumber = loginResponse?.gsm ?: String(),
+            phoneNumber = "5331231212" ?: String(),
             clientReferenceNo = MultiPayUser.clientReferenceNo
         )
     }

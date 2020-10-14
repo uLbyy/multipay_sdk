@@ -8,5 +8,4 @@ import kotlinx.android.parcel.Parcelize
 internal data class ResendOtpResponse(
     @field:SerializedName("verificationCode")
     var verificationCode: String?
-) : Parcelable {
-}
+) : Parcelable

@@ -15,11 +15,8 @@
     <string name="validation_gsm">Cep telefonu hatalıdır. Lütfen cep telefonu numaranızı başında sıfır olmadan ve 10 rakam uzunluğunda giriniz.</string>
     <string name="validation_email_or_gsm">E-postanizin / GSM numaranızın geçerli olduğunu kontrol ediniz.</string>
 
-    <string name="digit_number" translatable="false">0123456789</string>
+    <string name="otp_navigation_title">Aktivasyon</string>
     <string name="otp_description">%1$s numaralı cep telefonuna SMS olarak gönderilen tek kullanımlık şifreyi girin.</string>
-    <string name="otp_description_gsm">%1$s numaralı cep telefonunuza gelen 6 haneli şifreyi giriniz</string>
     <string name="otp_remaining_time">%1$s saniye kaldı</string>
     <string name="otp_resend">Yeniden SMS Gönder</string>
-    <string name="otp_verify">DOĞRULA</string>
-
 </resources>

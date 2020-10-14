@@ -14,7 +14,6 @@ import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.type.OtpDirectionFrom
 import com.inventiv.multipaysdk.databinding.FragmentLoginBinding
 import com.inventiv.multipaysdk.repository.AuthenticationRepository
-import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
 import com.inventiv.multipaysdk.ui.otp.OtpActivity
 import com.inventiv.multipaysdk.ui.otp.OtpNavigationArgs
 import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
@@ -57,14 +56,16 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         maskWatcher = MaskWatcher(requireBinding().textInputEditEmailOrGsm, maskPhone)
         requireBinding().textInputEditEmailOrGsm.addTextChangedListener(maskWatcher)
         requireBinding().buttonLogin.setOnClickListener {
-            loginClicked()
-        }
-        requireBinding().buttonActivationCode.setOnClickListener {
+        //    loginClicked()
             startActivity(
                 OtpActivity.newIntent(
                     requireActivity(),
-                    OtpNavigationArgs("NhgtrN3BPUq0Wbp3WdwLNg", "5331231212", 200),
-                    OtpDirectionFrom.CREATE_CARD,
+                    OtpNavigationArgs(
+                       " otpResponse?.verificationCode",
+                        "5331231212",
+                        10
+                    ),
+                    OtpDirectionFrom.LOGIN,
                     multiPaySdkListener
                 )
             )
@@ -83,7 +84,20 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     setLayoutProgressVisibility(View.VISIBLE)
                 }
                 is Resource.Success -> {
-                    startActivity(AddCardActivity.newIntent(requireActivity(), multiPaySdkListener))
+                    val loginResponse = resource.data
+
+                 /*   startActivity(
+                        OtpActivity.newIntent(
+                            requireActivity(),
+                            OtpNavigationArgs(
+                                loginResponse?.verificationCode,
+                                loginResponse?.gsm,
+                                loginResponse?.remainingTime
+                            ),
+                            OtpDirectionFrom.LOGIN,
+                            multiPaySdkListener
+                        )
+                    ) */
                     setLayoutProgressVisibility(View.GONE)
                 }
                 is Resource.Failure -> {

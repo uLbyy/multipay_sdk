@@ -14,7 +14,6 @@ import com.inventiv.multipaysdk.data.model.request.LoginInfoEmail
 import com.inventiv.multipaysdk.data.model.request.LoginInfoGsm
 import com.inventiv.multipaysdk.data.model.response.LoginResponse
 import com.inventiv.multipaysdk.data.model.response.Result
-import com.inventiv.multipaysdk.data.model.singleton.MultiPayUser
 import com.inventiv.multipaysdk.data.model.type.ValidationErrorType
 import com.inventiv.multipaysdk.util.Formatter
 import com.inventiv.multipaysdk.util.Validator
@@ -43,13 +42,11 @@ internal class AuthenticationRepository(private val apiService: ApiService) {
             apiService.loginRequest(loginRequest, object : NetworkCallback<Result> {
                 override fun onSuccess(response: Result?) {
                     val gson = MultiPaySdk.getComponent().gson()
-                    val loginResponse = gson.fromJson<LoginResponse>(
+                    val otpResponse = gson.fromJson<LoginResponse>(
                         response?.result,
                         LoginResponse::class.java
                     )
-                    MultiPayUser.loginReponse = loginResponse
-                    MultiPaySdk.getComponent().setMerchantToken(MultiPayUser.appTokenAfterLogin)
-                    loginResult.postValue(Event(Resource.Success(loginResponse)))
+                    loginResult.postValue(Event(Resource.Success(otpResponse)))
                 }
 
                 override fun onError(error: ApiError) {

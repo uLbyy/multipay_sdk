@@ -13,6 +13,7 @@ import com.inventiv.multipaysdk.data.model.request.ResendOtp
 import com.inventiv.multipaysdk.data.model.response.ConfirmOtpResponse
 import com.inventiv.multipaysdk.data.model.response.ResendOtpResponse
 import com.inventiv.multipaysdk.data.model.response.Result
+import com.inventiv.multipaysdk.data.model.singleton.MultiPayUser
 
 internal class OtpRepository(private val apiService: ApiService) {
 
@@ -32,6 +33,8 @@ internal class OtpRepository(private val apiService: ApiService) {
                     response?.result,
                     ConfirmOtpResponse::class.java
                 )
+                MultiPayUser.confirmOtpResponse = confirmOtpResponse
+                MultiPaySdk.getComponent().setMerchantToken(MultiPayUser.appTokenAfterLogin)
                 confirmOtpResult.postValue(Event(Resource.Success(confirmOtpResponse)))
             }
 
@@ -45,6 +48,7 @@ internal class OtpRepository(private val apiService: ApiService) {
     fun resendOtp(
         resendOtp: ResendOtp
     ): LiveData<Event<Resource<ResendOtpResponse>>> {
+
         resendOtpResult.postValue(Event(Resource.Loading()))
 
         apiService.resendOtpRequest(resendOtp, object : NetworkCallback<Result> {

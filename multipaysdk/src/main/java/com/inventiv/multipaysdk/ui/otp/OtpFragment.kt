@@ -64,6 +64,8 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
         super.onResume()
         showToolbar()
         toolbarBack()
+        title(R.string.otp_navigation_title)
+
     }
 
     override fun createBinding(
@@ -89,11 +91,11 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
         setupAndStartCountDownTimer()
         requireBinding().buttonResend.setOnClickListener {
             viewModel.resendOtp(otpNavigationArgs?.verificationCode)
+            requireBinding().buttonResend.visibility = View.GONE
         }
     }
 
     private fun setupAndStartCountDownTimer() {
-        requireBinding().buttonResend.isClickable = false
         val seconds = otpNavigationArgs?.remainingTime?.toLong() ?: 100L
         countDownTimer = object : CountDownTimer(TimeUnit.SECONDS.toMillis(seconds), 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -106,7 +108,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
             }
 
             override fun onFinish() {
-                requireBinding().buttonResend.isClickable = true
+                requireBinding().buttonResend.visibility = View.VISIBLE
             }
         }
         countDownTimer.start()
@@ -119,8 +121,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
                     setLayoutProgressVisibility(View.VISIBLE)
                 }
                 is Resource.Success -> {
-                    setLayoutProgressVisibility(View.GONE)
-                    val cardToken = resource.data?.cardToken
+                    val confirmOtpResponse = resource.data
                     when (otpDirectionFrom) {
                         OtpDirectionFrom.LOGIN -> {
                             // TODO : manage navigation
@@ -129,6 +130,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
                             // TODO : manage navigation
                         }
                     }
+                    setLayoutProgressVisibility(View.GONE)
                 }
                 is Resource.Failure -> {
                     showSnackBarAlert(resource.message)
@@ -147,7 +149,11 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
                 is Resource.Success -> {
                     setLayoutProgressVisibility(View.GONE)
                     otpNavigationArgs =
-                        OtpNavigationArgs(resource.data?.verificationCode, "5309600090", 100)
+                        OtpNavigationArgs(
+                            resource.data?.verificationCode,
+                            "5331231212",
+                            100
+                        )
                     setupAndStartCountDownTimer()
                 }
                 is Resource.Failure -> {

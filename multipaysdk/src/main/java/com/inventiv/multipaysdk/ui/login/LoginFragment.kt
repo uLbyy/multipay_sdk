@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.inventiv.multipaysdk.MultiPaySdk
-import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
@@ -16,28 +15,23 @@ import com.inventiv.multipaysdk.databinding.FragmentLoginBinding
 import com.inventiv.multipaysdk.repository.AuthenticationRepository
 import com.inventiv.multipaysdk.ui.otp.OtpActivity
 import com.inventiv.multipaysdk.ui.otp.OtpNavigationArgs
-import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
 import com.inventiv.multipaysdk.util.hideKeyboard
 import com.inventiv.multipaysdk.util.showSnackBarAlert
+import com.inventiv.multipaysdk.util.startActivityWithListener
 import com.inventiv.multipaysdk.view.listener.MaskWatcher
 
 
 internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private lateinit var maskWatcher: MaskWatcher
-    private lateinit var multiPaySdkListener: MultiPaySdkListener
 
     private val viewModel: LoginViewModel by viewModels {
         LoginViewModelFactory(AuthenticationRepository(MultiPaySdk.getComponent().apiService()))
     }
 
     companion object {
-        fun newInstance(multiPaySdkListener: MultiPaySdkListener): LoginFragment =
+        fun newInstance(): LoginFragment =
             LoginFragment().apply {
-                val args = Bundle().apply {
-                    putSerializable(KEY_MULTIPAY_SDK_LISTENER, multiPaySdkListener)
-                }
-                arguments = args
             }
     }
 
@@ -50,24 +44,22 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeLogin()
-        multiPaySdkListener =
-            arguments?.getSerializable(KEY_MULTIPAY_SDK_LISTENER) as MultiPaySdkListener
         val maskPhone = getString(R.string.mask_phone)
         maskWatcher = MaskWatcher(requireBinding().textInputEditEmailOrGsm, maskPhone)
         requireBinding().textInputEditEmailOrGsm.addTextChangedListener(maskWatcher)
         requireBinding().buttonLogin.setOnClickListener {
-        //    loginClicked()
-            startActivity(
+            //    loginClicked()
+            startActivityWithListener(
                 OtpActivity.newIntent(
                     requireActivity(),
                     OtpNavigationArgs(
-                       " otpResponse?.verificationCode",
+                        " otpResponse?.verificationCode",
                         "5331231212",
-                        10
+                        30
                     ),
-                    OtpDirectionFrom.LOGIN,
-                    multiPaySdkListener
-                )
+                    OtpDirectionFrom.LOGIN
+                ),
+                requireMultipaySdkListener()
             )
         }
     }
@@ -86,18 +78,18 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 is Resource.Success -> {
                     val loginResponse = resource.data
 
-                 /*   startActivity(
-                        OtpActivity.newIntent(
-                            requireActivity(),
-                            OtpNavigationArgs(
-                                loginResponse?.verificationCode,
-                                loginResponse?.gsm,
-                                loginResponse?.remainingTime
-                            ),
-                            OtpDirectionFrom.LOGIN,
-                            multiPaySdkListener
-                        )
-                    ) */
+                    /*   startActivityWithListener(
+                           OtpActivity.newIntent(
+                               requireActivity(),
+                               OtpNavigationArgs(
+                                   loginResponse?.verificationCode,
+                                   loginResponse?.gsm,
+                                   loginResponse?.remainingTime
+                               ),
+                               OtpDirectionFrom.LOGIN),
+                               requireMultipaySdkListener()
+                           )
+                       ) */
                     setLayoutProgressVisibility(View.GONE)
                 }
                 is Resource.Failure -> {

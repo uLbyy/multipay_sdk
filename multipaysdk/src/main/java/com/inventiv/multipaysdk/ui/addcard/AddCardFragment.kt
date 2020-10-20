@@ -6,31 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.inventiv.multipaysdk.MultiPaySdk
-import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.databinding.FragmentAddCardBinding
 import com.inventiv.multipaysdk.repository.CardRepository
-import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
 import com.inventiv.multipaysdk.util.hideKeyboard
 import com.inventiv.multipaysdk.util.showSnackBarAlert
 
 internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>() {
-
-    private lateinit var multiPaySdkListener: MultiPaySdkListener
 
     private val viewModel: AddCardViewModel by viewModels {
         AddCardViewModelFactory(CardRepository(MultiPaySdk.getComponent().apiService()))
     }
 
     companion object {
-        fun newInstance(multiPaySdkListener: MultiPaySdkListener): AddCardFragment =
+        fun newInstance(): AddCardFragment =
             AddCardFragment().apply {
-                val args = Bundle().apply {
-                    putSerializable(KEY_MULTIPAY_SDK_LISTENER, multiPaySdkListener)
-                }
-                arguments = args
             }
     }
 
@@ -43,8 +35,6 @@ internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeCreateMultinetCard()
-        multiPaySdkListener =
-            arguments?.getSerializable(KEY_MULTIPAY_SDK_LISTENER) as MultiPaySdkListener
         viewModel.createMultinetCard("6656900006030610", "524", "denemetest")
     }
 

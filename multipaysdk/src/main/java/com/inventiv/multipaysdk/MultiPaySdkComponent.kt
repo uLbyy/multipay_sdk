@@ -19,6 +19,7 @@ internal class MultiPaySdkComponent(
     private val volleyManager: VolleyManager
     private val networkManager: NetworkManager
     private val apiService: ApiService
+    private var activityCountOnStack = 0
 
     init {
         this.language = getLanguage(appContext, language)
@@ -53,4 +54,24 @@ internal class MultiPaySdkComponent(
     }
 
     fun volleyManager() = volleyManager
+
+    fun activityCountOnStack() = activityCountOnStack
+
+    fun activityCreated(): Int {
+        synchronized(this) {
+            activityCountOnStack += 1
+            return activityCountOnStack
+        }
+    }
+
+    fun activityDestroyed(): Int {
+        synchronized(this) {
+            if (activityCountOnStack > 0) {
+                activityCountOnStack -= 1
+            } else {
+                activityCountOnStack = 0
+            }
+            return activityCountOnStack
+        }
+    }
 }

@@ -1,19 +1,18 @@
 package com.inventiv.multipaysdk.ui.login
 
-import android.os.Bundle
+import android.content.Context
+import android.content.Intent
 import androidx.fragment.app.Fragment
-import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.base.BaseContainerActivity
-import com.inventiv.multipaysdk.util.KEY_MULTIPAY_SDK_LISTENER
 
 internal class LoginActivity : BaseContainerActivity() {
 
-    private lateinit var listener: MultiPaySdkListener
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        listener = intent.getSerializableExtra(KEY_MULTIPAY_SDK_LISTENER) as MultiPaySdkListener
-        super.onCreate(savedInstanceState)
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, LoginActivity::class.java).apply {
+            }
+        }
     }
 
-    override fun fragment(): Fragment = LoginFragment.newInstance(listener)
+    override fun fragment(): Fragment = LoginFragment.newInstance()
 }

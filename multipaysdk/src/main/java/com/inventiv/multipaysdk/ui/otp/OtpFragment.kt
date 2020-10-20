@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.inventiv.multipaysdk.MultiPaySdk
-import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
@@ -28,8 +27,6 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
 
     private lateinit var countDownTimer: CountDownTimer
 
-    private lateinit var multiPaySdkListener: MultiPaySdkListener
-
     private val viewModel: OtpViewModel by viewModels {
         OtpViewModelFactory(OtpRepository(MultiPaySdk.getComponent().apiService()))
     }
@@ -37,14 +34,12 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
     companion object {
         fun newInstance(
             otpNavigationArgs: OtpNavigationArgs,
-            otpDirectionFrom: OtpDirectionFrom,
-            multiPaySdkListener: MultiPaySdkListener
+            otpDirectionFrom: OtpDirectionFrom
         ): OtpFragment =
             OtpFragment().apply {
                 val args = Bundle().apply {
                     putParcelable(ARG_OTP_NAVIGATION, otpNavigationArgs)
                     putParcelable(ARG_OTP_DIRECTION_FROM, otpDirectionFrom)
-                    putSerializable(KEY_MULTIPAY_SDK_LISTENER, multiPaySdkListener)
                 }
                 arguments = args
             }
@@ -80,8 +75,6 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
         subscribeResendOtp()
         otpNavigationArgs = arguments?.getParcelable(ARG_OTP_NAVIGATION)
         otpDirectionFrom = arguments?.getParcelable(ARG_OTP_DIRECTION_FROM)
-        multiPaySdkListener =
-            arguments?.getSerializable(KEY_MULTIPAY_SDK_LISTENER) as MultiPaySdkListener
         requireBinding().viewPin.addTextChangedListener(simpleTextWatcher)
         requireBinding().textTitle.text = getString(
             R.string.otp_description,

@@ -1,8 +1,10 @@
 package com.inventiv.multipaysdk.util
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import com.inventiv.multipaysdk.MultiPaySdkListener
 import com.inventiv.multipaysdk.data.api.error.ApiError
 
 @SuppressLint("WrongConstant")
@@ -33,4 +35,9 @@ internal fun Fragment.showSnackBarConfirm(message: String? = ApiError.GENERAL_ER
         SNACKBAR_DURATION // Snackbar.LENGTH_LONG
     )
     SnackBarUtil.confirm(snackbar).show()
+}
+
+internal fun Fragment.startActivityWithListener(intent: Intent, listener: MultiPaySdkListener) {
+    intent.putExtra(KEY_MULTIPAY_SDK_LISTENER, listener)
+    startActivity(intent)
 }

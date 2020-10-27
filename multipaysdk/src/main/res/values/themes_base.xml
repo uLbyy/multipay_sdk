@@ -2,13 +2,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Base.Theme.App" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
+
+        <item name="android:statusBarColor" tools:ignore="NewApi">
+            ?android:attr/colorBackground
+        </item>
+
         <item name="android:navigationBarColor" tools:ignore="NewApi">
             ?android:attr/colorBackground
         </item>
+
         <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
             ?attr/colorControlHighlight
         </item>
+
         <item name="android:textColor">?attr/colorSecondary</item>
 
         <!--Material type attributes-->

@@ -30,9 +30,7 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     companion object {
-        fun newInstance(): LoginFragment =
-            LoginFragment().apply {
-            }
+        fun newInstance(): LoginFragment = LoginFragment()
     }
 
     override fun createBinding(
@@ -77,7 +75,6 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
                 is Resource.Success -> {
                     val loginResponse = resource.data
-
                     /*   startActivityWithListener(
                            OtpActivity.newIntent(
                                requireActivity(),

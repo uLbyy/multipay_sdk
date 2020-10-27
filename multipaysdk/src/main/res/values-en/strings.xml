@@ -19,4 +19,10 @@
     <string name="otp_description">Please enter password which is sent to phone with number %1$s</string>
     <string name="otp_remaining_time">%1$s seconds left</string>
     <string name="otp_resend">Send SMS again</string>
+
+    <string name="add_card_navigation_title">Multinet Kart Ekle</string>
+    <string name="add_card_card_alias">MULTİNET KARTINIZ</string>
+    <string name="add_card_card_number">KART NUMARANIZ</string>
+    <string name="add_card_card_cvv">CVV</string>
+    <string name="add_card_card_description">Kartınızın arka yüzündeki 3 haneli CVV kodunu giriniz. Kartınızın CVV kodu yoksa, CVV kodu alanını boş bırakınız.</string>
 </resources>

@@ -16,6 +16,7 @@ import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.type.OtpDirectionFrom
 import com.inventiv.multipaysdk.databinding.FragmentOtpBinding
 import com.inventiv.multipaysdk.repository.OtpRepository
+import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
 import com.inventiv.multipaysdk.util.*
 import com.inventiv.multipaysdk.view.listener.SimpleTextWatcher
 import java.util.concurrent.TimeUnit
@@ -50,7 +51,11 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
             val otpCode = s.toString()
             val otpLength = otpCode.length
             if (otpLength == resources.getInteger(R.integer.otp_length)) {
-                viewModel.confirmOtp(otpNavigationArgs?.verificationCode, otpCode)
+                startActivityWithListener(
+                    AddCardActivity.newIntent(requireActivity()),
+                    requireMultipaySdkListener()
+                )
+                //    viewModel.confirmOtp(otpNavigationArgs?.verificationCode, otpCode)
             }
         }
     }

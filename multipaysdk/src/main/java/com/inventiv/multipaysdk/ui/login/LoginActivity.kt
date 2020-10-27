@@ -9,8 +9,7 @@ internal class LoginActivity : BaseContainerActivity() {
 
     companion object {
         fun newIntent(context: Context): Intent {
-            return Intent(context, LoginActivity::class.java).apply {
-            }
+            return Intent(context, LoginActivity::class.java)
         }
     }
 

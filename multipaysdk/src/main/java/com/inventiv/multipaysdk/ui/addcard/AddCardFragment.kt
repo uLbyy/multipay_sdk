@@ -6,24 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.inventiv.multipaysdk.MultiPaySdk
+import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.databinding.FragmentAddCardBinding
 import com.inventiv.multipaysdk.repository.CardRepository
-import com.inventiv.multipaysdk.util.hideKeyboard
-import com.inventiv.multipaysdk.util.showSnackBarAlert
+import com.inventiv.multipaysdk.util.*
+import com.inventiv.multipaysdk.view.listener.MaskCardNumberWatcher
+import com.inventiv.multipaysdk.view.listener.MaskCardNumberWatcherView
 
-internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>() {
+internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>(), MaskCardNumberWatcherView {
 
     private val viewModel: AddCardViewModel by viewModels {
         AddCardViewModelFactory(CardRepository(MultiPaySdk.getComponent().apiService()))
     }
 
     companion object {
-        fun newInstance(): AddCardFragment =
-            AddCardFragment().apply {
-            }
+        fun newInstance(): AddCardFragment = AddCardFragment()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showToolbar()
+        toolbarBack()
+        title(R.string.add_card_navigation_title)
     }
 
     override fun createBinding(
@@ -35,7 +42,7 @@ internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeCreateMultinetCard()
-        viewModel.createMultinetCard("6656900006030610", "524", "denemetest")
+        requireBinding().textInputEditCardNumber.addTextChangedListener(MaskCardNumberWatcher(this@AddCardFragment))
     }
 
     private fun subscribeCreateMultinetCard() {
@@ -60,12 +67,12 @@ internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>() {
     }
 
     private fun createMultinetCard() {
-        requireBinding().textInputCardNumber.hideKeyboard()
-        requireBinding().textInputCvv.hideKeyboard()
-        requireBinding().textInputCardAlias.hideKeyboard()
-        val cardNumber = requireBinding().textInputEditCardNumber.text.toString().trim()
-        val cvv = requireBinding().textInputEditCvv.text.toString().trim()
+        requireBinding().textInputEditCardAlias.hideKeyboard()
+        requireBinding().textInputEditCardNumber.hideKeyboard()
+        requireBinding().textInputEditCardCvv.hideKeyboard()
         val cardAlias = requireBinding().textInputEditCardAlias.text.toString().trim()
+        val cardNumber = requireBinding().textInputEditCardNumber.text.toString().trim()
+        val cvv = requireBinding().textInputEditCardCvv.text.toString().trim()
         viewModel.createMultinetCard(cardNumber, cvv, cardAlias)
     }
 }

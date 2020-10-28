@@ -43,6 +43,9 @@ internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>(), MaskCar
         super.onViewCreated(view, savedInstanceState)
         subscribeCreateMultinetCard()
         requireBinding().textInputEditCardNumber.addTextChangedListener(MaskCardNumberWatcher(this@AddCardFragment))
+        requireBinding().buttonContinue.setOnClickListener {
+            createMultinetCard()
+        }
     }
 
     private fun subscribeCreateMultinetCard() {

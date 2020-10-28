@@ -25,4 +25,5 @@
     <string name="add_card_card_number">KART NUMARANIZ</string>
     <string name="add_card_card_cvv">CVV</string>
     <string name="add_card_card_description">Kartınızın arka yüzündeki 3 haneli CVV kodunu giriniz. Kartınızın CVV kodu yoksa, CVV kodu alanını boş bırakınız.</string>
+    <string name="add_card_button_continue">Devam</string>
 </resources>

@@ -64,8 +64,8 @@ internal class GsonRequest<I : BaseRequest, O : BaseResponse>(
     override fun toString(): String {
         return "GsonRequest(requestUrl=$requestUrl, " +
                 "requestMethod=$requestMethod, " +
-                "requestClass=( $requestClass, appToken=${requestClass.appToken} " +
-                "languageCode=${requestClass.languageCode} requestId=${requestClass.requestId} ), " +
+                "requestClass=( $requestClass, " +
+                "languageCode=${requestClass.languageCode}), " +
                 "responseClass=$responseClass, headers=$headers)"
     }
 }

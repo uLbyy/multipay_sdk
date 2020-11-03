@@ -24,6 +24,8 @@ import com.inventiv.multipaysdk.view.listener.MaskWatcher
 internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private lateinit var maskWatcher: MaskWatcher
+    private lateinit var emailOrGsm: String
+    private lateinit var password: String
 
     private val viewModel: LoginViewModel by viewModels {
         LoginViewModelFactory(AuthenticationRepository(MultiPaySdk.getComponent().apiService()))
@@ -46,19 +48,7 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         maskWatcher = MaskWatcher(requireBinding().textInputEditEmailOrGsm, maskPhone)
         requireBinding().textInputEditEmailOrGsm.addTextChangedListener(maskWatcher)
         requireBinding().buttonLogin.setOnClickListener {
-            //    loginClicked()
-            startActivityWithListener(
-                OtpActivity.newIntent(
-                    requireActivity(),
-                    OtpNavigationArgs(
-                        " otpResponse?.verificationCode",
-                        "5331231212",
-                        30
-                    ),
-                    OtpDirectionFrom.LOGIN
-                ),
-                requireMultipaySdkListener()
-            )
+            loginClicked()
         }
     }
 
@@ -75,18 +65,20 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
                 is Resource.Success -> {
                     val loginResponse = resource.data
-                    /*   startActivityWithListener(
-                           OtpActivity.newIntent(
-                               requireActivity(),
-                               OtpNavigationArgs(
-                                   loginResponse?.verificationCode,
-                                   loginResponse?.gsm,
-                                   loginResponse?.remainingTime
-                               ),
-                               OtpDirectionFrom.LOGIN),
-                               requireMultipaySdkListener()
-                           )
-                       ) */
+                    startActivityWithListener(
+                        OtpActivity.newIntent(
+                            requireActivity(),
+                            emailOrGsm,
+                            password,
+                            OtpNavigationArgs(
+                                loginResponse?.verificationCode,
+                                loginResponse?.gsm,
+                                loginResponse?.remainingTime
+                            ),
+                            OtpDirectionFrom.LOGIN
+                        ),
+                        requireMultipaySdkListener()
+                    )
                     setLayoutProgressVisibility(View.GONE)
                 }
                 is Resource.Failure -> {
@@ -104,8 +96,8 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun loginClicked() {
         requireBinding().textInputEditEmailOrGsm.hideKeyboard()
         requireBinding().textInputEditPassword.hideKeyboard()
-        val emailOrGsm = requireBinding().textInputEditEmailOrGsm.text.toString().trim()
-        val password = requireBinding().textInputEditPassword.text.toString().trim()
+        emailOrGsm = requireBinding().textInputEditEmailOrGsm.text.toString().trim()
+        password = requireBinding().textInputEditPassword.text.toString().trim()
         viewModel.login(emailOrGsm, password)
     }
 }

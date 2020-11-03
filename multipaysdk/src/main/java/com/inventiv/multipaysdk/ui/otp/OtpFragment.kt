@@ -15,6 +15,7 @@ import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.type.OtpDirectionFrom
 import com.inventiv.multipaysdk.databinding.FragmentOtpBinding
+import com.inventiv.multipaysdk.repository.AuthenticationRepository
 import com.inventiv.multipaysdk.repository.OtpRepository
 import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
 import com.inventiv.multipaysdk.util.*
@@ -23,22 +24,29 @@ import java.util.concurrent.TimeUnit
 
 internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
 
+    private var emailOrGsm: String? = null
+    private var password: String? = null
     private var otpNavigationArgs: OtpNavigationArgs? = null
     private var otpDirectionFrom: OtpDirectionFrom? = null
 
     private lateinit var countDownTimer: CountDownTimer
 
     private val viewModel: OtpViewModel by viewModels {
-        OtpViewModelFactory(OtpRepository(MultiPaySdk.getComponent().apiService()))
+        val apiService = MultiPaySdk.getComponent().apiService()
+        OtpViewModelFactory(OtpRepository(apiService), AuthenticationRepository(apiService))
     }
 
     companion object {
         fun newInstance(
+            emailOrGsm: String,
+            password: String,
             otpNavigationArgs: OtpNavigationArgs,
             otpDirectionFrom: OtpDirectionFrom
         ): OtpFragment =
             OtpFragment().apply {
                 val args = Bundle().apply {
+                    putString(ARG_EMAIL_OR_GSM, emailOrGsm)
+                    putString(ARG_PASSWORD, password)
                     putParcelable(ARG_OTP_NAVIGATION, otpNavigationArgs)
                     putParcelable(ARG_OTP_DIRECTION_FROM, otpDirectionFrom)
                 }
@@ -51,11 +59,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
             val otpCode = s.toString()
             val otpLength = otpCode.length
             if (otpLength == resources.getInteger(R.integer.otp_length)) {
-                startActivityWithListener(
-                    AddCardActivity.newIntent(requireActivity()),
-                    requireMultipaySdkListener()
-                )
-                //    viewModel.confirmOtp(otpNavigationArgs?.verificationCode, otpCode)
+                viewModel.confirmOtp(otpNavigationArgs?.verificationCode, otpCode)
             }
         }
     }
@@ -78,6 +82,8 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
         super.onViewCreated(view, savedInstanceState)
         subscribeConfirmOtp()
         subscribeResendOtp()
+        emailOrGsm = arguments?.getString(ARG_EMAIL_OR_GSM)
+        password = arguments?.getString(ARG_PASSWORD)
         otpNavigationArgs = arguments?.getParcelable(ARG_OTP_NAVIGATION)
         otpDirectionFrom = arguments?.getParcelable(ARG_OTP_DIRECTION_FROM)
         requireBinding().viewPin.addTextChangedListener(simpleTextWatcher)
@@ -88,7 +94,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
         requireBinding().viewPin.showKeyboard()
         setupAndStartCountDownTimer()
         requireBinding().buttonResend.setOnClickListener {
-            viewModel.resendOtp(otpNavigationArgs?.verificationCode)
+            viewModel.login(emailOrGsm!!, password!!)
             requireBinding().buttonResend.visibility = View.GONE
         }
     }
@@ -122,7 +128,10 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
                     val confirmOtpResponse = resource.data
                     when (otpDirectionFrom) {
                         OtpDirectionFrom.LOGIN -> {
-                            // TODO : manage navigation
+                            startActivityWithListener(
+                                AddCardActivity.newIntent(requireActivity()),
+                                requireMultipaySdkListener()
+                            )
                         }
                         OtpDirectionFrom.CREATE_CARD -> {
                             // TODO : manage navigation
@@ -139,20 +148,21 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
     }
 
     private fun subscribeResendOtp() {
-        viewModel.resendOtpResult.observe(viewLifecycleOwner, EventObserver { resource ->
+        viewModel.loginResult.observe(viewLifecycleOwner, EventObserver { resource ->
             when (resource) {
                 is Resource.Loading -> {
                     setLayoutProgressVisibility(View.VISIBLE)
                 }
                 is Resource.Success -> {
-                    setLayoutProgressVisibility(View.GONE)
+                    val loginResponse = resource.data
                     otpNavigationArgs =
                         OtpNavigationArgs(
-                            resource.data?.verificationCode,
-                            "5331231212",
-                            100
+                            loginResponse?.verificationCode,
+                            loginResponse?.gsm,
+                            loginResponse?.remainingTime
                         )
                     setupAndStartCountDownTimer()
+                    setLayoutProgressVisibility(View.GONE)
                 }
                 is Resource.Failure -> {
                     showSnackBarAlert(resource.message)

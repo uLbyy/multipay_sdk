@@ -6,6 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 internal data class LoginGsm(
-    @field:SerializedName("loginInfo")
-    var loginInfoGsm: LoginInfoGsm
+    @field:SerializedName("gsm")
+    var gsm: String,
+    @field:SerializedName("password")
+    var password: String
 ) : LoginRequest(), Parcelable

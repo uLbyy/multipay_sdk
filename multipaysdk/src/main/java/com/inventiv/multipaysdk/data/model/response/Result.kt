@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 import com.inventiv.multipaysdk.data.model.type.ResultCode
 
 internal data class Result(
-    @field:SerializedName("Result")
+    @field:SerializedName("result")
     var result: JsonElement? = null,
-    @field:SerializedName("ResultCode")
+    @field:SerializedName("resultCode")
     var resultCode: Int = 0,
-    @field:SerializedName("ResultMessage")
+    @field:SerializedName("resultMessage")
     var resultMessage: String? = null
 ) : BaseResponse {
     fun isSuccess(): Boolean {

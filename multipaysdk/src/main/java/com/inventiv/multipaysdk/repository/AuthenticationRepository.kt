@@ -10,8 +10,6 @@ import com.inventiv.multipaysdk.data.model.Event
 import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.request.LoginEmail
 import com.inventiv.multipaysdk.data.model.request.LoginGsm
-import com.inventiv.multipaysdk.data.model.request.LoginInfoEmail
-import com.inventiv.multipaysdk.data.model.request.LoginInfoGsm
 import com.inventiv.multipaysdk.data.model.response.LoginResponse
 import com.inventiv.multipaysdk.data.model.response.Result
 import com.inventiv.multipaysdk.data.model.type.ValidationErrorType
@@ -30,9 +28,9 @@ internal class AuthenticationRepository(private val apiService: ApiService) {
         val loginInputType: Int = Validator.getInputType(emailOrGsm)
 
         val loginRequest = if (loginInputType == Validator.INPUT_TYPE_GSM) {
-            LoginGsm(LoginInfoGsm(Formatter.servicePhoneNumber(emailOrGsm), password))
+            LoginGsm(Formatter.servicePhoneNumber(emailOrGsm), password)
         } else {
-            LoginEmail(LoginInfoEmail(emailOrGsm, password))
+            LoginEmail(emailOrGsm, password)
         }
 
         if ((validEmail || validGsm) && validPassword) {

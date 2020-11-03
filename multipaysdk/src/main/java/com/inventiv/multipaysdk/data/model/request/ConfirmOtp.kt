@@ -6,9 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 internal data class ConfirmOtp(
-    @field:SerializedName("VerificationCode")
+    @field:SerializedName("verificationCode")
     var verificationCode: String?,
-    @field:SerializedName("otpCode")
-    var otpCode: String
-) : Parcelable, BaseRequest() {
-}
+    @field:SerializedName("smsCode")
+    var smsCode: String
+) : Parcelable, BaseRequest()

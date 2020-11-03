@@ -6,10 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class LoginResponse(
-    @field:SerializedName("VerificationCode")
+    @field:SerializedName("verificationCode")
     var verificationCode: String?,
-    @field:SerializedName("RemainingTime")
-    var remainingTime: String?,
-    @field:SerializedName("Gsm")
+    @field:SerializedName("remainingTime")
+    var remainingTime: Int?,
+    @field:SerializedName("gsm")
     var gsm: String?
 ) : Parcelable

@@ -7,17 +7,18 @@ import androidx.lifecycle.ViewModel
 import com.inventiv.multipaysdk.data.model.Event
 import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.request.ConfirmOtp
-import com.inventiv.multipaysdk.data.model.request.ResendOtp
 import com.inventiv.multipaysdk.data.model.response.ConfirmOtpResponse
-import com.inventiv.multipaysdk.data.model.response.ResendOtpResponse
+import com.inventiv.multipaysdk.data.model.response.LoginResponse
+import com.inventiv.multipaysdk.repository.AuthenticationRepository
 import com.inventiv.multipaysdk.repository.OtpRepository
 
 internal class OtpViewModel(
-    private val otpRepository: OtpRepository
+    private val otpRepository: OtpRepository,
+    private val authenticationRepository: AuthenticationRepository
 ) : ViewModel() {
 
     private val _confirmOtp = MutableLiveData<Event<ConfirmOtp>>()
-    private val _resendOtp = MutableLiveData<Event<ResendOtp>>()
+    private val _login = MutableLiveData<Pair<String, String>>()
 
     val confirmOtpResult: LiveData<Event<Resource<ConfirmOtpResponse>>> =
         Transformations
@@ -25,17 +26,17 @@ internal class OtpViewModel(
                 otpRepository.confirmOtp(it.peekContent())
             }
 
-    val resendOtpResult: LiveData<Event<Resource<ResendOtpResponse>>> =
+    val loginResult: LiveData<Event<Resource<LoginResponse>>> =
         Transformations
-            .switchMap(_resendOtp) {
-                otpRepository.resendOtp(it.peekContent())
+            .switchMap(_login) {
+                authenticationRepository.login(it.first, it.second)
             }
 
     fun confirmOtp(verificationCode: String?, otpCode: String) {
         _confirmOtp.value = Event(ConfirmOtp(verificationCode, otpCode))
     }
 
-    fun resendOtp(verificationCode: String?) {
-        _resendOtp.value = Event(ResendOtp(verificationCode))
+    fun login(emailOrGsm: String, password: String) {
+        _login.value = Pair(emailOrGsm, password)
     }
 }

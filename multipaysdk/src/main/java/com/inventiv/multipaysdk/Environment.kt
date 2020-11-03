@@ -2,20 +2,15 @@ package com.inventiv.multipaysdk
 
 enum class Environment(
     internal val baseUrl: String,
-    internal val apiServicePath: String,
-    internal val loginBaseUrl: String,
-    internal val loginApiServicePath: String
+    internal val apiServicePath: String
 ) {
     TEST(
-        "https://test-multinet-enterpriseservices-rest.inventiv.services",
-        "/MultinetCardService",
-        "https://test-multinet-multipay-api.inventiv.services",
-        "/MultiUService"
+        "http://192.168.0.31:44562/",
+        "multipay-sdk/v1/"
+
     ),
     PRODUCTION(
-        "https://webservices.multinet.com.tr",
-        "/rest/MultinetCardService",
-        "",
-        ""
+        "http://192.168.0.31:44562/",
+        "multipay-sdk/v1/"
     )
 }

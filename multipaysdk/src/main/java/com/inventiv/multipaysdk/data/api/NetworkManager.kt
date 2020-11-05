@@ -20,7 +20,6 @@ internal class NetworkManager(private val volleyManager: VolleyManager, environm
         const val PRIORITY_IMMEDIATE = 3
 
         private const val HEADER_KEY_OS_VERSION = "device-os-version"
-
         private const val HEADER_VALUE_OS_VERSION = "Android"
     }
 
@@ -36,6 +35,7 @@ internal class NetworkManager(private val volleyManager: VolleyManager, environm
         requestBaseUrl: String = baseUrl,
         requestApiServicePath: String = apiServicePath
     ) {
+
         val headers = mutableMapOf<String, String>()
         headers[HEADER_KEY_OS_VERSION] = HEADER_VALUE_OS_VERSION
 
@@ -76,8 +76,11 @@ internal class NetworkManager(private val volleyManager: VolleyManager, environm
         if (response.isSuccess()) {
             deliverResponse(response, null, networkCallback)
         } else {
-            val apiError =
-                ApiError.apiErrorInstance(response.resultMessage, response.resultCode, response)
+            val apiError = ApiError.serverErrorInstance(
+                response.resultMessage!!,
+                response.resultCode,
+                response.result.toString().toByteArray()
+            )
             deliverResponse(null, apiError, networkCallback)
         }
     }

@@ -6,14 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 internal data class CreateMultinetCard(
-    @field:SerializedName("cardNumber")
-    var cardNumber: String,
+    @field:SerializedName("number")
+    var number: String,
     @field:SerializedName("cvv")
     var cvv: String,
-    @field:SerializedName("cardAlias")
-    var cardAlias: String,
-    @field:SerializedName("phoneNumber")
-    var phoneNumber: String,
-    @field:SerializedName("clientReferenceNo")
-    var clientReferenceNo: String
-) : Parcelable, BaseRequest()
+    @field:SerializedName("alias")
+    var alias: String
+) : Parcelable, BaseAuthRequest()

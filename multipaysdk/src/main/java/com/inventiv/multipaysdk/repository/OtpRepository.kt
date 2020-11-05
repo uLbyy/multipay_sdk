@@ -30,8 +30,7 @@ internal class OtpRepository(private val apiService: ApiService) {
                     response?.result,
                     ConfirmOtpResponse::class.java
                 )
-                MultiPayUser.confirmOtpResponse = confirmOtpResponse
-                MultiPaySdk.getComponent().setMerchantToken(MultiPayUser.appTokenAfterLogin)
+                MultiPayUser.authToken = confirmOtpResponse.authToken
                 confirmOtpResult.postValue(Event(Resource.Success(confirmOtpResponse)))
             }
 

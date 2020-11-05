@@ -60,12 +60,4 @@ internal class GsonRequest<I : BaseRequest, O : BaseResponse>(
             Response.error(VolleyParseError(response))
         }
     }
-
-    override fun toString(): String {
-        return "GsonRequest(requestUrl=$requestUrl, " +
-                "requestMethod=$requestMethod, " +
-                "requestClass=( $requestClass, " +
-                "languageCode=${requestClass.languageCode}), " +
-                "responseClass=$responseClass, headers=$headers)"
-    }
 }

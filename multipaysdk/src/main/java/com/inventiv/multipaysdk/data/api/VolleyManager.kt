@@ -11,12 +11,11 @@ import com.android.volley.toolbox.ImageLoader
 import com.inventiv.multipaysdk.data.api.cache.LruBitmapCache
 import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
 import com.inventiv.multipaysdk.data.api.error.ApiError
-import com.inventiv.multipaysdk.data.api.error.VolleyCancelError
+import com.inventiv.multipaysdk.data.api.error.VolleyNetworkError
 import com.inventiv.multipaysdk.data.api.error.VolleyParseError
 import com.inventiv.multipaysdk.data.model.request.BaseRequest
 import com.inventiv.multipaysdk.data.model.response.BaseResponse
 import com.inventiv.multipaysdk.data.model.type.RequestMethod
-import com.inventiv.multipaysdk.util.Logger
 import java.io.File
 
 internal class VolleyManager(private val context: Context) {
@@ -55,7 +54,7 @@ internal class VolleyManager(private val context: Context) {
     }
 
     fun <T : BaseResponse> sendRequest(
-        baseUrl: String,
+        requestUrl: String,
         baseRequest: BaseRequest,
         requestPath: String,
         headers: MutableMap<String, String>,
@@ -64,28 +63,33 @@ internal class VolleyManager(private val context: Context) {
         requestMethod: RequestMethod
     ) {
         val gsonRequest = GsonRequest(
-            "$baseUrl${requestPath}",
+            "$requestUrl${requestPath}",
             baseRequest,
             responseModel,
             headers,
             Response.Listener { response ->
-                Logger.d("Response received : $response")
                 callback.onSuccess(response)
             },
             Response.ErrorListener { volleyError ->
+
                 val apiError: ApiError = when {
+
                     volleyError == null -> {
                         ApiError.generalInstance()
                     }
-                    volleyError is VolleyCancelError -> {
-                        ApiError.cancelInstance()
+
+                    volleyError is VolleyNetworkError -> {
+                        ApiError.networkErrorInstance()
                     }
+
                     volleyError is NoConnectionError -> {
                         ApiError.noConnectionInstance()
                     }
+
                     volleyError is VolleyParseError -> {
                         ApiError.invalidResponseInstance()
                     }
+
                     volleyError.networkResponse != null -> {
                         ApiError.serverErrorInstance(
                             volleyError.message ?: "",
@@ -93,25 +97,25 @@ internal class VolleyManager(private val context: Context) {
                             volleyError.networkResponse.data
                         )
                     }
+
                     else -> {
+
                         if (volleyError.message.isNullOrEmpty()) {
                             ApiError.generalInstance()
                         } else {
                             ApiError.generalInstance(volleyError.message!!)
                         }
+
                     }
+
                 }
-                Logger.d("Error on receiving response: $apiError")
                 callback.onError(apiError)
             },
             requestMethod
         )
-
         gsonRequest.headers.putAll(headers)
         gsonRequest.tag = REQUEST_TAG
         gsonRequest.setShouldCache(false)
-
-        Logger.d("Sending request: $gsonRequest")
         requestQueue.add(gsonRequest)
     }
 

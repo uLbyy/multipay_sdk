@@ -33,7 +33,10 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
 
     private val viewModel: OtpViewModel by viewModels {
         val apiService = MultiPaySdk.getComponent().apiService()
-        OtpViewModelFactory(OtpRepository(apiService), AuthenticationRepository(apiService))
+        OtpViewModelFactory(
+            OtpRepository(apiService),
+            AuthenticationRepository(apiService)
+        )
     }
 
     companion object {
@@ -125,7 +128,6 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
                     setLayoutProgressVisibility(View.VISIBLE)
                 }
                 is Resource.Success -> {
-                    val confirmOtpResponse = resource.data
                     when (otpDirectionFrom) {
                         OtpDirectionFrom.LOGIN -> {
                             startActivityWithListener(

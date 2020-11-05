@@ -26,10 +26,10 @@ internal class ApiService(private val networkManager: NetworkManager) {
         networkCallback: NetworkCallback<Result>
     ) {
         networkManager.sendRequest(
-            confirmOtp,
-            "auth/otp/confirm",
-            Result::class.java,
-            networkCallback
+            request = confirmOtp,
+            requestPath = "auth/otp/confirm",
+            responseModel = Result::class.java,
+            networkCallback = networkCallback
         )
     }
 

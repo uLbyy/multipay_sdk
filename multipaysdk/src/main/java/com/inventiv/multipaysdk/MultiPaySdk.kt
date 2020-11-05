@@ -15,12 +15,13 @@ object MultiPaySdk {
     @JvmStatic
     fun init(
         context: Context,
-        merchant_token: String,
+        appToken: String,
+        userId: String = String(),
         environment: Environment = Environment.PRODUCTION,
         language: Language? = null
     ) {
         this.multiPaySdkComponent =
-            MultiPaySdkComponent(context, merchant_token, environment, language)
+            MultiPaySdkComponent(context, appToken, userId, environment, language)
     }
 
     @JvmStatic

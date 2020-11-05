@@ -8,9 +8,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 internal open class BaseRequest(
     @field:SerializedName("languageCode")
-    var languageCode: String = MultiPaySdk.getComponent().language().code
-) : Parcelable {
-    override fun toString(): String {
-        return "BaseRequest(languageCode='$languageCode')"
-    }
-}
+    var languageCode: String = MultiPaySdk.getComponent().language().code,
+    @field:SerializedName("appToken")
+    var appToken: String = MultiPaySdk.getComponent().appToken(),
+    @field:SerializedName("clientReferenceNo")
+    var clientReferenceNo: String = MultiPaySdk.getComponent().clientReferenceNo()
+) : Parcelable

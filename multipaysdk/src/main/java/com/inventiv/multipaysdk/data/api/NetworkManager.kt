@@ -69,23 +69,25 @@ internal class NetworkManager(private val volleyManager: VolleyManager, environm
             val strData = it.data?.toString(Charsets.UTF_8)
             try {
                 val result = MultiPaySdk.getComponent().gson().fromJson(strData, Result::class.java)
-                deliverResponse(result, null, networkCallback)
+                val apiError =
+                    ApiError.apiErrorInstance(result.resultMessage, result.resultCode, result)
+                deliverResponse(null, apiError, networkCallback)
             } catch (e: JsonSyntaxException) {
                 deliverResponse(null, volleyError, networkCallback)
             }
             return
         }
 
-
+        if (response !is Result) {
+            deliverResponse(response, null, networkCallback)
+            return
+        }
 
         if (response.isSuccess()) {
             deliverResponse(response, null, networkCallback)
         } else {
-            val apiError = ApiError.serverErrorInstance(
-                response.resultMessage!!,
-                response.resultCode,
-                response.result.toString().toByteArray()
-            )
+            val apiError =
+                ApiError.apiErrorInstance(response.resultMessage, response.resultCode, response)
             deliverResponse(null, apiError, networkCallback)
         }
     }

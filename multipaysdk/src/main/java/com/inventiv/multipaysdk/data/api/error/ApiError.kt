@@ -1,5 +1,7 @@
 package com.inventiv.multipaysdk.data.api.error
 
+import com.inventiv.multipaysdk.MultiPaySdk
+import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.data.model.response.Result
 
 internal class ApiError : Exception {
@@ -29,9 +31,12 @@ internal class ApiError : Exception {
         const val ERROR_NO_NETWORK_CONNECTION = 2
         const val ERROR_INVALID_RESPONSE = 3
         const val ERROR_SERVER = 4
+        const val ERROR_NETWORK_TIMEOUT = 5
 
         const val GENERAL_ERROR_MESSAGE = "An error occurred."
         const val NETWORK_ERROR_MESSAGE = "A Network error occurred."
+        val NETWORK_TIMEOUT_ERROR_MESSAGE =
+            MultiPaySdk.getComponent().getString(R.string.api_error_connection_timeout)
         const val NO_NETWORK_ERROR_MESSAGE = "No network connection."
         const val INVALID_RESPONSE_MESSAGE = "A non-jsonObject response received from server."
 
@@ -46,6 +51,13 @@ internal class ApiError : Exception {
         fun networkErrorInstance(errorMessage: String = NETWORK_ERROR_MESSAGE): ApiError {
             val error = ApiError(errorMessage)
             error.errorCode = ERROR_NETWORK
+            return error
+        }
+
+        @JvmOverloads
+        fun timeoutErrorInstance(errorMessage: String = NETWORK_TIMEOUT_ERROR_MESSAGE): ApiError {
+            val error = ApiError(errorMessage)
+            error.errorCode = ERROR_NETWORK_TIMEOUT
             return error
         }
 

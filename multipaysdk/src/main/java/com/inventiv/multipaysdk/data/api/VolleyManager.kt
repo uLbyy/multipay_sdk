@@ -4,6 +4,7 @@ import android.content.Context
 import com.android.volley.NoConnectionError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
+import com.android.volley.TimeoutError
 import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
@@ -86,6 +87,10 @@ internal class VolleyManager(private val context: Context) {
 
                     volleyError is NoConnectionError -> {
                         ApiError.noConnectionInstance()
+                    }
+
+                    volleyError is TimeoutError -> {
+                        ApiError.timeoutErrorInstance()
                     }
 
                     volleyError is VolleyParseError -> {

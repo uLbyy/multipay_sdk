@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-internal class CreateMultinetCardResponse : Parcelable, BaseResponse
+internal class AddWalletResponse : Parcelable, BaseResponse

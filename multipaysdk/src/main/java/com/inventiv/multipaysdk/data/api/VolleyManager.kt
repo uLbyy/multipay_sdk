@@ -16,6 +16,7 @@ import com.inventiv.multipaysdk.data.api.error.VolleyParseError
 import com.inventiv.multipaysdk.data.model.request.BaseRequest
 import com.inventiv.multipaysdk.data.model.response.BaseResponse
 import com.inventiv.multipaysdk.data.model.type.RequestMethod
+import com.inventiv.multipaysdk.util.Logger
 import java.io.File
 
 internal class VolleyManager(private val context: Context) {
@@ -69,6 +70,7 @@ internal class VolleyManager(private val context: Context) {
             headers,
             Response.Listener { response ->
                 callback.onSuccess(response)
+                Logger.d(response.toString())
             },
             Response.ErrorListener { volleyError ->
 
@@ -109,6 +111,7 @@ internal class VolleyManager(private val context: Context) {
                     }
 
                 }
+                Logger.d(apiError.toString())
                 callback.onError(apiError)
             },
             requestMethod
@@ -116,7 +119,9 @@ internal class VolleyManager(private val context: Context) {
         gsonRequest.headers.putAll(headers)
         gsonRequest.tag = REQUEST_TAG
         gsonRequest.setShouldCache(false)
+        Logger.d(gsonRequest.toString())
         requestQueue.add(gsonRequest)
+
     }
 
     fun cancelAllRequests() {

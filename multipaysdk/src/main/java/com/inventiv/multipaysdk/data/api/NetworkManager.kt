@@ -1,6 +1,8 @@
 package com.inventiv.multipaysdk.data.api
 
+import com.google.gson.JsonSyntaxException
 import com.inventiv.multipaysdk.Environment
+import com.inventiv.multipaysdk.MultiPaySdk
 import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
 import com.inventiv.multipaysdk.data.api.error.ApiError
 import com.inventiv.multipaysdk.data.model.request.BaseRequest
@@ -64,14 +66,17 @@ internal class NetworkManager(private val volleyManager: VolleyManager, environm
         networkCallback: NetworkCallback<T>
     ) {
         volleyError?.let {
-            deliverResponse(null, volleyError, networkCallback)
+            val strData = it.data?.toString(Charsets.UTF_8)
+            try {
+                val result = MultiPaySdk.getComponent().gson().fromJson(strData, Result::class.java)
+                deliverResponse(result, null, networkCallback)
+            } catch (e: JsonSyntaxException) {
+                deliverResponse(null, volleyError, networkCallback)
+            }
             return
         }
 
-        if (response !is Result) {
-            deliverResponse(response, null, networkCallback)
-            return
-        }
+
 
         if (response.isSuccess()) {
             deliverResponse(response, null, networkCallback)

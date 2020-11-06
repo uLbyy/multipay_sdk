@@ -1,5 +1,7 @@
 package com.inventiv.multipaysdk.data.api.error
 
+import com.inventiv.multipaysdk.data.model.response.Result
+
 internal class ApiError : Exception {
 
     var errorCode = 0
@@ -7,6 +9,8 @@ internal class ApiError : Exception {
     var statusCode = 0
         private set
     var data: ByteArray? = null
+        private set
+    var result: Result? = null
         private set
 
     private constructor(detailMessage: String) : super(detailMessage)
@@ -71,5 +75,26 @@ internal class ApiError : Exception {
             error.data = data
             return error
         }
+
+        @JvmOverloads
+        fun apiErrorInstance(
+            errorMessage: String?,
+            statusCode: Int,
+            result: Result?
+        ): ApiError {
+            val error = ApiError(errorMessage ?: GENERAL_ERROR_MESSAGE)
+            error.errorCode = ERROR_SERVER
+            error.statusCode = statusCode
+            error.result = result
+            return error
+        }
+    }
+
+    override fun toString(): String {
+        return "ApiError(errorCode=$errorCode, " +
+                "statusCode=$statusCode, " +
+                "data=" + (if (data != null) String(data!!) else "") + ", " +
+                "cause=" + (cause?.toString() ?: "") + ", " +
+                "message=" + message + ')'
     }
 }

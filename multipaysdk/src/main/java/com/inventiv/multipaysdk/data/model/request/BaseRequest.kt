@@ -10,7 +10,5 @@ internal open class BaseRequest(
     @field:SerializedName("languageCode")
     var languageCode: String = MultiPaySdk.getComponent().language().code,
     @field:SerializedName("appToken")
-    var appToken: String = MultiPaySdk.getComponent().appToken(),
-    @field:SerializedName("clientReferenceNo")
-    var clientReferenceNo: String = MultiPaySdk.getComponent().clientReferenceNo()
+    var appToken: String = MultiPaySdk.getComponent().appToken()
 ) : Parcelable

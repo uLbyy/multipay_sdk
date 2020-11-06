@@ -2,7 +2,7 @@ package com.inventiv.multipaysdk.data.api
 
 import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
 import com.inventiv.multipaysdk.data.model.request.ConfirmOtp
-import com.inventiv.multipaysdk.data.model.request.CreateMultinetCard
+import com.inventiv.multipaysdk.data.model.request.AddWallet
 import com.inventiv.multipaysdk.data.model.request.LoginRequest
 import com.inventiv.multipaysdk.data.model.response.Result
 
@@ -33,13 +33,13 @@ internal class ApiService(private val networkManager: NetworkManager) {
         )
     }
 
-    fun createMultinetCardRequest(
-        createMultinetCard: CreateMultinetCard,
+    fun addWalletRequest(
+        addWallet: AddWallet,
         networkCallback: NetworkCallback<Result>
     ) {
         networkManager.sendRequest(
-            request = createMultinetCard,
-            requestPath = "CreateMultinetCard",
+            request = addWallet,
+            requestPath = "wallets",
             responseModel = Result::class.java,
             networkCallback = networkCallback
         )

@@ -8,34 +8,34 @@ import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
 import com.inventiv.multipaysdk.data.api.error.ApiError
 import com.inventiv.multipaysdk.data.model.Event
 import com.inventiv.multipaysdk.data.model.Resource
-import com.inventiv.multipaysdk.data.model.request.CreateMultinetCard
-import com.inventiv.multipaysdk.data.model.response.CreateMultinetCardResponse
+import com.inventiv.multipaysdk.data.model.request.AddWallet
+import com.inventiv.multipaysdk.data.model.response.AddWalletResponse
 import com.inventiv.multipaysdk.data.model.response.Result
 
 internal class CardRepository(private val apiService: ApiService) {
 
-    private val createMultinetResult =
-        MediatorLiveData<Event<Resource<CreateMultinetCardResponse>>>()
+    private val addWalletResult =
+        MediatorLiveData<Event<Resource<AddWalletResponse>>>()
 
-    fun createMultinet(createMultinetCard: CreateMultinetCard): LiveData<Event<Resource<CreateMultinetCardResponse>>> {
+    fun addWallet(addWallet: AddWallet): LiveData<Event<Resource<AddWalletResponse>>> {
 
-        createMultinetResult.postValue(Event(Resource.Loading()))
+        addWalletResult.postValue(Event(Resource.Loading()))
 
-        apiService.createMultinetCardRequest(createMultinetCard, object : NetworkCallback<Result> {
+        apiService.addWalletRequest(addWallet, object : NetworkCallback<Result> {
             override fun onSuccess(response: Result?) {
                 val gson = MultiPaySdk.getComponent().gson()
-                val createMultinetCardResponse = gson.fromJson<CreateMultinetCardResponse>(
+                val addWalletResponse = gson.fromJson<AddWalletResponse>(
                     response?.result,
-                    CreateMultinetCard::class.java
+                    AddWallet::class.java
                 )
-                createMultinetResult.postValue(Event(Resource.Success(createMultinetCardResponse)))
+                addWalletResult.postValue(Event(Resource.Success(addWalletResponse)))
             }
 
             override fun onError(error: ApiError) {
-                createMultinetResult.postValue(Event(Resource.Failure(error.message)))
+                addWalletResult.postValue(Event(Resource.Failure(error.message)))
             }
         })
 
-        return createMultinetResult
+        return addWalletResult
     }
 }

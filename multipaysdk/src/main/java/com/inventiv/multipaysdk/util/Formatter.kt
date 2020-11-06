@@ -8,7 +8,7 @@ internal object Formatter {
 
     fun servicePhoneNumber(phoneNumber: String) = stringToNumeric(phoneNumber).substring(1)
 
-    private fun stringToNumeric(str: String) = str.replace("[^\\d]".toRegex(), "")
+    fun stringToNumeric(str: String) = str.replace("[^\\d]".toRegex(), "")
 
     fun formatPhoneNumber(value: String?, withMask: Boolean): String? {
         return value?.replaceFirst(

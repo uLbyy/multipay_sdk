@@ -41,15 +41,15 @@ internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>(), MaskCar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeCreateMultinetCard()
+        subscribeAddWallet()
         requireBinding().textInputEditCardNumber.addTextChangedListener(MaskCardNumberWatcher(this@AddCardFragment))
         requireBinding().buttonContinue.setOnClickListener {
-            createMultinetCard()
+            addWallet()
         }
     }
 
-    private fun subscribeCreateMultinetCard() {
-        viewModel.createMultinetCardResult.observe(viewLifecycleOwner, EventObserver { resource ->
+    private fun subscribeAddWallet() {
+        viewModel.addWalletResult.observe(viewLifecycleOwner, EventObserver { resource ->
             when (resource) {
                 is Resource.Loading -> {
                     setLayoutProgressVisibility(View.VISIBLE)
@@ -69,13 +69,13 @@ internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>(), MaskCar
         requireBinding().addCardProgress.layoutProgress.visibility = visibility
     }
 
-    private fun createMultinetCard() {
+    private fun addWallet() {
         requireBinding().textInputEditCardAlias.hideKeyboard()
         requireBinding().textInputEditCardNumber.hideKeyboard()
         requireBinding().textInputEditCardCvv.hideKeyboard()
         val cardAlias = requireBinding().textInputEditCardAlias.text.toString().trim()
         val cardNumber = requireBinding().textInputEditCardNumber.text.toString().trim()
         val cvv = requireBinding().textInputEditCardCvv.text.toString().trim()
-        viewModel.createMultinetCard(cardNumber, cvv, cardAlias)
+        viewModel.addWallet(Formatter.stringToNumeric(cardNumber), cvv, cardAlias)
     }
 }

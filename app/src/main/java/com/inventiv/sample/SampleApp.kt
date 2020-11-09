@@ -11,7 +11,7 @@ class SampleApp : Application() {
         super.onCreate()
         MultiPaySdk.init(
             context = this,
-            appToken = "784fc69b7543455384a08beeb1d8c3c5",
+            appToken = "40dd196a092c4abe8c16f26c1c521b7c",
             environment = Environment.TEST,
             language = Language.TR
         )

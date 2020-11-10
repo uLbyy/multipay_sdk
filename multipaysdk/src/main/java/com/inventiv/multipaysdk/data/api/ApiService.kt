@@ -1,9 +1,10 @@
 package com.inventiv.multipaysdk.data.api
 
 import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
-import com.inventiv.multipaysdk.data.model.request.ConfirmOtp
 import com.inventiv.multipaysdk.data.model.request.AddWallet
+import com.inventiv.multipaysdk.data.model.request.ConfirmOtp
 import com.inventiv.multipaysdk.data.model.request.LoginRequest
+import com.inventiv.multipaysdk.data.model.request.Wallet
 import com.inventiv.multipaysdk.data.model.response.Result
 
 
@@ -28,6 +29,18 @@ internal class ApiService(private val networkManager: NetworkManager) {
         networkManager.sendRequest(
             request = confirmOtp,
             requestPath = "auth/otp/confirm",
+            responseModel = Result::class.java,
+            networkCallback = networkCallback
+        )
+    }
+
+    fun walletRequest(
+        wallet: Wallet,
+        networkCallback: NetworkCallback<Result>
+    ) {
+        networkManager.sendRequest(
+            request = wallet,
+            requestPath = "wallet/list",
             responseModel = Result::class.java,
             networkCallback = networkCallback
         )

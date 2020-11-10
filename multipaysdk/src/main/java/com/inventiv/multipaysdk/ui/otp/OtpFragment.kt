@@ -17,7 +17,7 @@ import com.inventiv.multipaysdk.data.model.type.OtpDirectionFrom
 import com.inventiv.multipaysdk.databinding.FragmentOtpBinding
 import com.inventiv.multipaysdk.repository.AuthenticationRepository
 import com.inventiv.multipaysdk.repository.OtpRepository
-import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
+import com.inventiv.multipaysdk.ui.wallet.WalletActivity
 import com.inventiv.multipaysdk.util.*
 import com.inventiv.multipaysdk.view.listener.SimpleTextWatcher
 import java.util.concurrent.TimeUnit
@@ -131,7 +131,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
                     when (otpDirectionFrom) {
                         OtpDirectionFrom.LOGIN -> {
                             startActivityWithListener(
-                                AddCardActivity.newIntent(requireActivity()),
+                                WalletActivity.newIntent(requireActivity()),
                                 requireMultipaySdkListener()
                             )
                         }

@@ -12,4 +12,4 @@ internal data class LoginResponse(
     var remainingTime: Int?,
     @field:SerializedName("gsm")
     var gsm: String?
-) : Parcelable
+) : Parcelable, BaseResponse

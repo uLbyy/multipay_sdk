@@ -8,10 +8,10 @@ import com.inventiv.multipaysdk.data.model.Event
 import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.request.AddWallet
 import com.inventiv.multipaysdk.data.model.response.AddWalletResponse
-import com.inventiv.multipaysdk.repository.CardRepository
+import com.inventiv.multipaysdk.repository.WalletRepository
 
 internal class AddCardViewModel(
-    private val cardRepository: CardRepository
+    private val walletRepository: WalletRepository
 ) : ViewModel() {
 
     private val _addWallet = MutableLiveData<AddWallet>()
@@ -19,7 +19,7 @@ internal class AddCardViewModel(
     val addWalletResult: LiveData<Event<Resource<AddWalletResponse>>> =
         Transformations
             .switchMap(_addWallet) {
-                cardRepository.addWallet(it)
+                walletRepository.addWallet(it)
             }
 
     fun addWallet(cardNumber: String, cvv: String, cardAlias: String) {

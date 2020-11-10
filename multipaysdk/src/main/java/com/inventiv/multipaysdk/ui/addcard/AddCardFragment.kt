@@ -11,7 +11,7 @@ import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.databinding.FragmentAddCardBinding
-import com.inventiv.multipaysdk.repository.CardRepository
+import com.inventiv.multipaysdk.repository.WalletRepository
 import com.inventiv.multipaysdk.util.*
 import com.inventiv.multipaysdk.view.listener.MaskCardNumberWatcher
 import com.inventiv.multipaysdk.view.listener.MaskCardNumberWatcherView
@@ -19,7 +19,7 @@ import com.inventiv.multipaysdk.view.listener.MaskCardNumberWatcherView
 internal class AddCardFragment : BaseFragment<FragmentAddCardBinding>(), MaskCardNumberWatcherView {
 
     private val viewModel: AddCardViewModel by viewModels {
-        AddCardViewModelFactory(CardRepository(MultiPaySdk.getComponent().apiService()))
+        AddCardViewModelFactory(WalletRepository(MultiPaySdk.getComponent().apiService()))
     }
 
     companion object {

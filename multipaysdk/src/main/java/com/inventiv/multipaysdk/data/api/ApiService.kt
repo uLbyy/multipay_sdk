@@ -40,7 +40,7 @@ internal class ApiService(private val networkManager: NetworkManager) {
     ) {
         networkManager.sendRequest(
             request = wallet,
-            requestPath = "wallet/list",
+            requestPath = "wallets/list",
             responseModel = Result::class.java,
             networkCallback = networkCallback
         )

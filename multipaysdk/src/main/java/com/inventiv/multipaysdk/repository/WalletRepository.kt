@@ -13,6 +13,7 @@ import com.inventiv.multipaysdk.data.model.request.Wallet
 import com.inventiv.multipaysdk.data.model.response.AddWalletResponse
 import com.inventiv.multipaysdk.data.model.response.Result
 import com.inventiv.multipaysdk.data.model.response.WalletsResponse
+import com.inventiv.multipaysdk.ui.wallet.WalletListItem
 
 internal class WalletRepository(private val apiService: ApiService) {
 
@@ -20,7 +21,7 @@ internal class WalletRepository(private val apiService: ApiService) {
         MediatorLiveData<Event<Resource<AddWalletResponse>>>()
 
     private val walletsResult =
-        MediatorLiveData<Event<Resource<WalletsResponse>>>()
+        MediatorLiveData<Event<Resource<List<WalletListItem>>>>()
 
     fun addWallet(addWallet: AddWallet): LiveData<Event<Resource<AddWalletResponse>>> {
 
@@ -44,7 +45,7 @@ internal class WalletRepository(private val apiService: ApiService) {
         return addWalletResult
     }
 
-    fun wallets(): LiveData<Event<Resource<WalletsResponse>>> {
+    fun walletsListItem(): LiveData<Event<Resource<List<WalletListItem>>>> {
 
         walletsResult.postValue(Event(Resource.Loading()))
 
@@ -55,7 +56,9 @@ internal class WalletRepository(private val apiService: ApiService) {
                     response?.result,
                     WalletsResponse::class.java
                 )
-                walletsResult.postValue(Event(Resource.Success(walletsResponse)))
+                walletsResult.postValue(
+                    Event(Resource.Success(mapWalletsResponseToWalletListItem(walletsResponse)))
+                )
             }
 
             override fun onError(error: ApiError) {
@@ -64,5 +67,13 @@ internal class WalletRepository(private val apiService: ApiService) {
         })
 
         return walletsResult
+    }
+
+    fun mapWalletsResponseToWalletListItem(walletsResponse: WalletsResponse?): List<WalletListItem> {
+        val walletListItemList: MutableList<WalletListItem> = mutableListOf()
+        walletsResponse?.wallets?.forEach {
+            walletListItemList.add(WalletListItem(it))
+        }
+        return walletListItemList
     }
 }

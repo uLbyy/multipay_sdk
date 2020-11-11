@@ -2,7 +2,7 @@ package com.inventiv.multipaysdk
 
 import android.content.Context
 import com.inventiv.multipaysdk.data.model.type.Language
-import com.inventiv.multipaysdk.ui.login.LoginActivity
+import com.inventiv.multipaysdk.ui.wallet.WalletActivity
 import com.inventiv.multipaysdk.util.startActivityWithListener
 
 object MultiPaySdk {
@@ -29,6 +29,6 @@ object MultiPaySdk {
 
     @JvmStatic
     fun startSDKForSubmitConsumer(context: Context, listener: MultiPaySdkListener) {
-        context.startActivityWithListener(LoginActivity.newIntent(context), listener)
+        context.startActivityWithListener(WalletActivity.newIntent(context), listener)
     }
 }

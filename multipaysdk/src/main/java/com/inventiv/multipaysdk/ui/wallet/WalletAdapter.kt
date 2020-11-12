@@ -5,44 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.inventiv.multipaysdk.MultiPaySdk
-import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.data.model.response.WalletResponse
 import com.inventiv.multipaysdk.databinding.ItemWalletSingleSelectBinding
-import com.inventiv.multipaysdk.databinding.LayoutListEmptyBinding
-
-private const val ITEM_VIEW_TYPE_EMPTY = 0
-private const val ITEM_VIEW_TYPE_ITEM = 1
 
 internal class WalletAdapter(private val clickListener: WalletListener) :
-    ListAdapter<WalletListItem, RecyclerView.ViewHolder>(WalletDiffCallback()) {
+    ListAdapter<WalletListItem, WalletAdapter.ViewHolder>(WalletDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            ITEM_VIEW_TYPE_EMPTY -> EmptyViewHolder.from(parent)
-            ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
-            else -> throw ClassCastException("Unknown viewType $viewType")
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is ViewHolder -> {
-                val walletItem = getItem(position)
-                holder.bind(walletItem, clickListener)
-            }
-            is EmptyViewHolder -> {
-                holder.bind(MultiPaySdk.getComponent().getString(R.string.wallet_list_no_wallet))
-            }
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (itemCount == 0) {
-            ITEM_VIEW_TYPE_EMPTY
-        } else {
-            ITEM_VIEW_TYPE_ITEM
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val walletItem = getItem(position)
+        holder.bind(walletItem, clickListener)
     }
 
     class ViewHolder private constructor(private val binding: ItemWalletSingleSelectBinding) :
@@ -64,22 +39,6 @@ internal class WalletAdapter(private val clickListener: WalletListener) :
                 val binding = ItemWalletSingleSelectBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
-            }
-        }
-    }
-
-    class EmptyViewHolder private constructor(private val binding: LayoutListEmptyBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(emptyListMessage: String) {
-            binding.textCommonEmptyList.text = emptyListMessage
-        }
-
-        companion object {
-            fun from(parent: ViewGroup): EmptyViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = LayoutListEmptyBinding.inflate(layoutInflater, parent, false)
-                return EmptyViewHolder(binding)
             }
         }
     }

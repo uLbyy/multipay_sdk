@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.inventiv.multipaysdk.MultiPaySdk
+import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
@@ -181,15 +182,25 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
                     setLayoutProgressVisibility(View.GONE)
                     listAdapter.submitList(walletList?.toMutableList())
                     subscribeSelectedWallet()
+                    showHideEmptyListText(walletList?.isEmpty() ?: false)
                 }
                 is Resource.Failure -> {
                     showSnackBarAlert(resource.message)
                     setLayoutProgressVisibility(View.GONE)
                     listAdapter.submitList(createTestList())
                     subscribeSelectedWallet()
+                    showHideEmptyListText(false)
                 }
             }
         })
+    }
+
+    private fun showHideEmptyListText(isShow: Boolean) {
+        requireBinding().textWalletListEmpty.layoutCommonEmptyList.visibility =
+            if (isShow) View.VISIBLE else View.GONE
+        requireBinding().listWallets.visibility = if (isShow) View.GONE else View.VISIBLE
+        requireBinding().textWalletListEmpty.textCommonEmptyList.text =
+            getString(R.string.wallet_list_no_wallet)
     }
 
     private fun setLayoutProgressVisibility(visibility: Int) {

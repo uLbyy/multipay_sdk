@@ -17,6 +17,10 @@
         tools:listitem="@layout/item_wallet_single_select" />
 
     <include
+        android:id="@+id/text_wallet_list_empty"
+        layout="@layout/layout_list_empty" />
+
+    <include
         android:id="@+id/wallet_progress"
         layout="@layout/layout_progress" />
 

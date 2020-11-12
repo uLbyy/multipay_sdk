@@ -157,16 +157,16 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
 
     private fun subscribeSelectedWallet() {
         viewModel.selectedWallet.observe(viewLifecycleOwner, Observer { walletResponse ->
-            listAdapter.submitList(listAdapter.currentList.apply {
-                this.map { it.isChecked = false }
-                this.find { item -> item.walletResponse.token == walletResponse.token }?.isChecked =
-                    true
-            })
-//            listAdapter.notifyDataSetChanged()
-            /*listAdapter.currentList.apply {
-                this.map { it.isChecked = false }
-                this.find { item -> item.walletResponse.token == walletResponse.token }?.isChecked = true
-            }*/
+            val newWalletItemList: MutableList<WalletListItem> = mutableListOf()
+            listAdapter.currentList.forEach {
+                newWalletItemList.add(
+                    WalletListItem(
+                        it.walletResponse,
+                        it.walletResponse.token == walletResponse.token
+                    )
+                )
+            }
+            listAdapter.submitList(newWalletItemList)
         })
     }
 
@@ -179,15 +179,13 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
                 is Resource.Success -> {
                     val walletList = resource.data
                     setLayoutProgressVisibility(View.GONE)
-                    listAdapter.submitList(walletList)
+                    listAdapter.submitList(walletList?.toMutableList())
                     subscribeSelectedWallet()
                 }
                 is Resource.Failure -> {
                     showSnackBarAlert(resource.message)
                     setLayoutProgressVisibility(View.GONE)
-                    val list: MutableList<WalletListItem> = mutableListOf()
                     listAdapter.submitList(createTestList())
-//                    listAdapter.notifyDataSetChanged()
                     subscribeSelectedWallet()
                 }
             }

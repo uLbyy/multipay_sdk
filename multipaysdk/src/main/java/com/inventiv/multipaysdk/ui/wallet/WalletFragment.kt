@@ -187,9 +187,7 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
                 is Resource.Failure -> {
                     showSnackBarAlert(resource.message)
                     setLayoutProgressVisibility(View.GONE)
-                    listAdapter.submitList(createTestList())
-                    subscribeSelectedWallet()
-                    showHideEmptyListText(false)
+                    showHideEmptyListText(true)
                 }
             }
         })

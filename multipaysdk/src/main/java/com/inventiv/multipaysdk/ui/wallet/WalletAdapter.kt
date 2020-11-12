@@ -28,6 +28,7 @@ internal class WalletAdapter(private val clickListener: WalletListener) :
             binding.textWalletBalance.text = walletListItem.walletResponse.balance
             binding.textWalletNumber.text = walletListItem.walletResponse.maskedNumber
             binding.radiobtnWallet.isChecked = walletListItem.isChecked
+//            binding.imageWallet.setImageUrl(walletListItem.walletResponse.imgUrl)
             binding.root.setOnClickListener {
                 clickListener.onClick(walletListItem.walletResponse)
             }

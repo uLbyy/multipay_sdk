@@ -9,10 +9,11 @@
     android:paddingStart="@dimen/margin_normal"
     android:paddingEnd="@dimen/margin_small">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.inventiv.multipaysdk.view.MultiPayNetworkImageView
         android:id="@+id/image_wallet"
         android:layout_width="56dp"
         android:layout_height="40dp"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -27,6 +27,11 @@
     <string name="add_card_card_description">Kartınızın arka yüzündeki 3 haneli CVV kodunu giriniz. Kartınızın CVV kodu yoksa, CVV kodu alanını boş bırakınız.</string>
     <string name="add_card_button_continue">Devam</string>
 
+    <string name="wallet_navigation_title">Lütfen Cüzdan Seçiniz</string>
+    <string name="wallet_description">Ödeme yapabileceğin cüzdanları listeledik. Ödeme yapmak istediğin cüzdanı seçerek, ödemeyi yapacağın uygulama ile eşleştirebilirsin.</string>
+    <string name="wallet_add_wallet">KART EKLE</string>
+    <string name="wallet_match">EŞLEŞTİR</string>
+
     <string name="wallet_item_balance_description">Toplam Kullanılabilir bakiye</string>
     <string name="wallet_list_no_wallet">Henüz tanımlı bir kartınız bulunmamaktadır.</string>
 

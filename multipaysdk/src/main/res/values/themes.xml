@@ -3,4 +3,6 @@
 
     <style name="Theme.MultiPaySdk" parent="Base.Theme.MultiPaySdk" />
 
+    <style name="ThemeOverlay.MultiPaySdk.ListBackground" parent="Base.ThemeOverlay.MultiPaySdk.ListBackground" />
+
 </resources>

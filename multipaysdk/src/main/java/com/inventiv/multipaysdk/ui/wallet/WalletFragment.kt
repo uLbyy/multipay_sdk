@@ -16,7 +16,8 @@ import com.inventiv.multipaysdk.data.model.Resource
 import com.inventiv.multipaysdk.data.model.response.WalletResponse
 import com.inventiv.multipaysdk.databinding.FragmentWalletBinding
 import com.inventiv.multipaysdk.repository.WalletRepository
-import com.inventiv.multipaysdk.util.showSnackBarAlert
+import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
+import com.inventiv.multipaysdk.util.*
 
 
 internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
@@ -31,6 +32,13 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
 
     private lateinit var listAdapter: WalletAdapter
 
+    override fun onResume() {
+        super.onResume()
+        showToolbar()
+        toolbarBack()
+        title(R.string.wallet_navigation_title)
+    }
+
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,7 +52,21 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         })
         prepareRecyclerView()
         subscribeWallet()
-        viewModel.walletsListItem()
+        //    viewModel.walletsListItem()
+
+        requireBinding().buttonAddWallet.setOnClickListener {
+            startActivityWithListener(
+                AddCardActivity.newIntent(requireActivity()),
+                requireMultipaySdkListener()
+            )
+        }
+        requireBinding().buttonMatch.setOnClickListener {
+
+        }
+
+        listAdapter.submitList(createTestList())
+        subscribeSelectedWallet()
+        showHideEmptyListText(false)
     }
 
     private fun prepareRecyclerView() {
@@ -158,6 +180,7 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
 
     private fun subscribeSelectedWallet() {
         viewModel.selectedWallet.observe(viewLifecycleOwner, Observer { walletResponse ->
+            requireBinding().buttonMatch.visibility = View.VISIBLE
             val newWalletItemList: MutableList<WalletListItem> = mutableListOf()
             listAdapter.currentList.forEach {
                 newWalletItemList.add(

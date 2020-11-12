@@ -9,4 +9,6 @@
     <color name="carmine">#b00020</color>
     <color name="black">#000000</color>
     <color name="colorProgressDim">#33000000</color>
+    <color name="paua">#242554</color>
+    <color name="white_blur">#fafafa</color>
 </resources>

@@ -50,4 +50,8 @@
         <item name="colorOnError">@color/white</item>
     </style>
 
+    <style name="Base.ThemeOverlay.MultiPaySdk.ListBackground" parent="Base.Theme.MultiPaySdk">
+        <item name="android:colorBackground">@color/white_blur</item>
+    </style>
+
 </resources>

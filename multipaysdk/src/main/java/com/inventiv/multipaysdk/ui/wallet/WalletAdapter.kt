@@ -1,12 +1,15 @@
 package com.inventiv.multipaysdk.ui.wallet
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.data.model.response.WalletResponse
 import com.inventiv.multipaysdk.databinding.ItemWalletSingleSelectBinding
+import com.inventiv.multipaysdk.util.themeColor
 
 internal class WalletAdapter(private val clickListener: WalletListener) :
     ListAdapter<WalletListItem, WalletAdapter.ViewHolder>(WalletDiffCallback()) {
@@ -33,6 +36,13 @@ internal class WalletAdapter(private val clickListener: WalletListener) :
             binding.textWalletBalance.text = walletListItem.walletResponse.balance
             binding.textWalletNumber.text = walletListItem.walletResponse.maskedNumber
             binding.radiobtnWallet.isChecked = walletListItem.isChecked
+            if (walletListItem.isChecked) {
+                binding.layoutWalletItem.setBackgroundColor(
+                    binding.layoutWalletItem.context.themeColor(R.attr.colorControlHighlight)
+                )
+            } else {
+                binding.layoutWalletItem.setBackgroundColor(Color.TRANSPARENT)
+            }
 //            binding.imageWallet.setImageUrl(walletListItem.walletResponse.imgUrl)
             binding.root.setOnClickListener {
                 clickListener.onClick(walletListItem.walletResponse)

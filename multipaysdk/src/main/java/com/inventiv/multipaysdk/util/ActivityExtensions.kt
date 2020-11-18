@@ -3,6 +3,8 @@ package com.inventiv.multipaysdk.util
 import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
+import android.util.TypedValue
+import androidx.annotation.AttrRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.inventiv.multipaysdk.MultiPaySdkListener
@@ -28,4 +30,10 @@ internal fun FragmentActivity.startActivityWithListener(
 internal fun Context.startActivityWithListener(intent: Intent, listener: MultiPaySdkListener) {
     intent.putExtra(KEY_MULTIPAY_SDK_LISTENER, listener)
     startActivity(intent)
+}
+
+internal fun Context.themeColor(@AttrRes attrRes: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attrRes, typedValue, true)
+    return typedValue.data
 }

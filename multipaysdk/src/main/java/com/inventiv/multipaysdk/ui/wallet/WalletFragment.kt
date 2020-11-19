@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -13,7 +14,6 @@ import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
-import com.inventiv.multipaysdk.data.model.response.WalletResponse
 import com.inventiv.multipaysdk.databinding.FragmentWalletBinding
 import com.inventiv.multipaysdk.repository.WalletRepository
 import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
@@ -52,7 +52,7 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         })
         prepareRecyclerView()
         subscribeWallet()
-        //    viewModel.walletsListItem()
+        viewModel.walletsListItem()
 
         requireBinding().buttonAddWallet.setOnClickListener {
             startActivityWithListener(
@@ -63,10 +63,6 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         requireBinding().buttonMatch.setOnClickListener {
 
         }
-
-        listAdapter.submitList(createTestList())
-        subscribeSelectedWallet()
-        showHideEmptyListText(false)
     }
 
     private fun prepareRecyclerView() {
@@ -78,90 +74,13 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         }
     }
 
-    private fun createTestList(): MutableList<WalletListItem> {
-        val walletList: MutableList<WalletListItem> = mutableListOf()
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    "MultiNet - Kale",
-                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
-                    "6656 **** *606 0044",
-                    "asdasd123",
-                    "4.994,98 ₺"
-                )
-            )
-        )
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    "MultiNet - Business",
-                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
-                    "6656 **** *606 0022",
-                    "asdasd124",
-                    "6.994,98 ₺"
-                )
-            ).apply { isChecked = true })
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    "MultiNet - Premium",
-                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
-                    "6656 **** *606 0011",
-                    "asdasd125",
-                    "5.994,98 ₺"
-                )
-            )
-        )
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    "MultiNet - Perfect",
-                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
-                    "6656 **** *606 0033",
-                    "asdasd126",
-                    "1.994,98 ₺"
-                )
-            )
-        )
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    "MultiNet - Perfect",
-                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
-                    "6656 **** *606 0066",
-                    "asdasd127",
-                    "2.994,98 ₺"
-                )
-            )
-        )
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    "MultiNet - Ultra",
-                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
-                    "6656 **** *606 0077",
-                    "asdasd128",
-                    "994,98 ₺"
-                )
-            )
-        )
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    "MultiNet - Mega",
-                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
-                    "6656 **** *606 0088",
-                    "asdasd129",
-                    "0 ₺"
-                )
-            )
-        )
-        return walletList
-    }
-
     private fun subscribeSelectedWallet() {
         viewModel.selectedWallet.observe(viewLifecycleOwner, Observer { walletResponse ->
             requireBinding().buttonMatch.visibility = View.VISIBLE
+            if (listAdapter.currentList.find { it.isChecked } == null) {
+                val animSlideUp = AnimationUtils.loadAnimation(context, R.anim.anim_slide_up)
+                requireBinding().buttonMatch.startAnimation(animSlideUp)
+            }
             val newWalletItemList: MutableList<WalletListItem> = mutableListOf()
             listAdapter.currentList.forEach {
                 newWalletItemList.add(

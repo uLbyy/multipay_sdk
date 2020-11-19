@@ -27,12 +27,7 @@ internal class WalletAdapter(private val clickListener: WalletListener) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(walletListItem: WalletListItem, clickListener: WalletListener) {
-            binding.textWalletName.text =
-                if (walletListItem.walletResponse.alias.isNullOrEmpty()) {
-                    walletListItem.walletResponse.productName
-                } else {
-                    "${walletListItem.walletResponse.productName} - ${walletListItem.walletResponse.alias}"
-                }
+            binding.textWalletName.text = walletListItem.walletResponse.name
             binding.textWalletBalance.text = walletListItem.walletResponse.balance
             binding.textWalletNumber.text = walletListItem.walletResponse.maskedNumber
             binding.radiobtnWallet.isChecked = walletListItem.isChecked
@@ -43,7 +38,7 @@ internal class WalletAdapter(private val clickListener: WalletListener) :
             } else {
                 binding.layoutWalletItem.setBackgroundColor(Color.TRANSPARENT)
             }
-//            binding.imageWallet.setImageUrl(walletListItem.walletResponse.imgUrl)
+            binding.imageWallet.setImageUrl(walletListItem.walletResponse.imageUrl)
             binding.root.setOnClickListener {
                 clickListener.onClick(walletListItem.walletResponse)
             }

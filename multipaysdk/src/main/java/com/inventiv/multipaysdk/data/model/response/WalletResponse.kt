@@ -6,12 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 internal data class WalletResponse(
-    @field:SerializedName("productId")
-    val productId: Int,
-    @field:SerializedName("productName")
-    val productName: String?,
-    @field:SerializedName("alias")
-    val alias: String?,
+    @field:SerializedName("name")
+    val name: String?,
+    @field:SerializedName("image")
+    val imageUrl: String?,
     @field:SerializedName("maskedNumber")
     val maskedNumber: String?,
     @field:SerializedName("token")

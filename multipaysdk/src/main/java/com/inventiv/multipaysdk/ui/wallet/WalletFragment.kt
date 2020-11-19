@@ -83,95 +83,76 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         walletList.add(
             WalletListItem(
                 WalletResponse(
-                    1,
-                    "Multinet",
-                    "Benim Kartım",
-                    "1234 **** **** 1234",
-                    "asdasdasd",
-                    "30 TL"
+                    "MultiNet - Kale",
+                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
+                    "6656 **** *606 0044",
+                    "asdasd123",
+                    "4.994,98 ₺"
                 )
             )
         )
         walletList.add(
             WalletListItem(
                 WalletResponse(
-                    1,
-                    "Multinet",
-                    "Yedek Kartım",
-                    "1235 **** **** 1235",
-                    "asdxcvdfs",
-                    "20 TL"
+                    "MultiNet - Business",
+                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
+                    "6656 **** *606 0022",
+                    "asdasd124",
+                    "6.994,98 ₺"
                 )
             ).apply { isChecked = true })
         walletList.add(
             WalletListItem(
                 WalletResponse(
-                    2,
-                    "Multinet Gift",
-                    "Ücüncü Kartım",
-                    "1214 **** **** 1214",
-                    "asdasdasdzxs",
-                    "40 TL"
+                    "MultiNet - Premium",
+                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
+                    "6656 **** *606 0011",
+                    "asdasd125",
+                    "5.994,98 ₺"
                 )
             )
         )
         walletList.add(
             WalletListItem(
                 WalletResponse(
-                    2,
-                    "Multinet Gift",
-                    "Dördüncü Kartım",
-                    "1224 **** **** 1214",
-                    "asdasdasdzxs1",
-                    "110 TL"
+                    "MultiNet - Perfect",
+                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
+                    "6656 **** *606 0033",
+                    "asdasd126",
+                    "1.994,98 ₺"
                 )
             )
         )
         walletList.add(
             WalletListItem(
                 WalletResponse(
-                    2,
-                    "Multinet Gift",
-                    "Beşinci Kartım",
-                    "1234 **** **** 1214",
-                    "asdasdasdzxs2",
-                    "140 TL"
+                    "MultiNet - Perfect",
+                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
+                    "6656 **** *606 0066",
+                    "asdasd127",
+                    "2.994,98 ₺"
                 )
             )
         )
         walletList.add(
             WalletListItem(
                 WalletResponse(
-                    2,
-                    "Multinet Gift",
-                    "Ücüncü Kartım",
-                    "1244 **** **** 1214",
-                    "asdasdasdzxs3",
-                    "450 TL"
+                    "MultiNet - Ultra",
+                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
+                    "6656 **** *606 0077",
+                    "asdasd128",
+                    "994,98 ₺"
                 )
             )
         )
         walletList.add(
             WalletListItem(
                 WalletResponse(
-                    2,
-                    "Multinet Gift",
-                    "Ücüncü Kartım",
-                    "1254 **** **** 1214",
-                    "asdasdasdzxs4",
-                    "4 TL"
-                )
-            )
-        )
-        walletList.add(
-            WalletListItem(
-                WalletResponse(
-                    2,
-                    "Multinet Gift",
-                    "Ücüncü Kartım",
-                    "1264 **** **** 1214",
-                    "asdasdasdzxs5",
-                    "40,23 TL"
+                    "MultiNet - Mega",
+                    "https://multinetcdn.blob.core.windows.net/multipay-cards/1.png",
+                    "6656 **** *606 0088",
+                    "asdasd129",
+                    "0 ₺"
                 )
             )
         )

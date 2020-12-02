@@ -5,12 +5,12 @@ enum class Environment(
     internal val apiServicePath: String
 ) {
     TEST(
-        "http://192.168.0.31:44562/",
+        "http://192.168.0.33:44562/",
         "multipay-sdk/v1/"
 
     ),
     PRODUCTION(
-        "http://192.168.0.31:44562/",
+        "http://192.168.0.33:44562/",
         "multipay-sdk/v1/"
     )
 }

@@ -8,24 +8,10 @@
     <string name="login_forget_password_text"><i>Şifrenizi unuttuysanız buraya basarak <b>tekrar şifre</b> oluşturabilirsiniz.</i></string>
     <string name="login_activation_text">Aktivasyon Koduyla Gir</string>
 
-    <string name="validation_name">Lütfen adınızı kontrol ediniz.</string>
-    <string name="validation_surname">Lütfen soyadınızı kontrol ediniz.</string>
-    <string name="validation_email">Lütfen e-posta adresinizin geçerli olduğunu kontrol ediniz.</string>
-    <string name="validation_password">Lütfen şifrenizi en az bir rakam ve bir harf içerecek şekilde, en az 8 karakter uzunluğunda giriniz.</string>
-    <string name="validation_gsm">Cep telefonu hatalıdır. Lütfen cep telefonu numaranızı başında sıfır olmadan ve 10 rakam uzunluğunda giriniz.</string>
-    <string name="validation_email_or_gsm">E-postanizin / GSM numaranızın geçerli olduğunu kontrol ediniz.</string>
-
     <string name="otp_navigation_title">Aktivasyon</string>
     <string name="otp_description">%1$s numaralı cep telefonuna SMS olarak gönderilen tek kullanımlık şifreyi girin.</string>
     <string name="otp_remaining_time">%1$s saniye kaldı</string>
     <string name="otp_resend">Yeniden SMS Gönder</string>
-
-    <string name="add_card_navigation_title">Multinet Kart Ekle</string>
-    <string name="add_card_card_alias">MULTİNET KARTINIZ</string>
-    <string name="add_card_card_number">KART NUMARANIZ</string>
-    <string name="add_card_card_cvv">CVV</string>
-    <string name="add_card_card_description">Kartınızın arka yüzündeki 3 haneli CVV kodunu giriniz. Kartınızın CVV kodu yoksa, CVV kodu alanını boş bırakınız.</string>
-    <string name="add_card_button_continue">Devam</string>
 
     <string name="wallet_navigation_title">Lütfen Cüzdan Seçiniz</string>
     <string name="wallet_description">Ödeme yapabileceğin cüzdanları listeledik. Ödeme yapmak istediğin cüzdanı seçerek, ödemeyi yapacağın uygulama ile eşleştirebilirsin.</string>
@@ -35,5 +21,20 @@
     <string name="wallet_item_balance_description">Toplam Kullanılabilir bakiye</string>
     <string name="wallet_list_no_wallet">Henüz tanımlı bir kartınız bulunmamaktadır.</string>
 
+    <string name="add_card_navigation_title">Multinet Kart Ekle</string>
+    <string name="add_card_card_alias">MULTİNET KARTINIZ</string>
+    <string name="add_card_card_number">KART NUMARANIZ</string>
+    <string name="add_card_card_cvv">CVV</string>
+    <string name="add_card_card_description">Kartınızın arka yüzündeki 3 haneli CVV kodunu giriniz. Kartınızın CVV kodu yoksa, CVV kodu alanını boş bırakınız.</string>
+    <string name="add_card_button_continue">Devam</string>
+
+    <string name="validation_name">Lütfen adınızı kontrol ediniz.</string>
+    <string name="validation_surname">Lütfen soyadınızı kontrol ediniz.</string>
+    <string name="validation_email">Lütfen e-posta adresinizin geçerli olduğunu kontrol ediniz.</string>
+    <string name="validation_password">Lütfen şifrenizi en az bir rakam ve bir harf içerecek şekilde, en az 8 karakter uzunluğunda giriniz.</string>
+    <string name="validation_gsm">Cep telefonu hatalıdır. Lütfen cep telefonu numaranızı başında sıfır olmadan ve 10 rakam uzunluğunda giriniz.</string>
+    <string name="validation_email_or_gsm">E-postanizin / GSM numaranızın geçerli olduğunu kontrol ediniz.</string>
+
     <string name="api_error_connection_timeout">Lütfen internet bağlantınızı kontrol ediniz.</string>
+
 </resources>

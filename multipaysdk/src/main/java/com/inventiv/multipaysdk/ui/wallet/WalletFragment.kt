@@ -14,6 +14,7 @@ import com.inventiv.multipaysdk.R
 import com.inventiv.multipaysdk.base.BaseFragment
 import com.inventiv.multipaysdk.data.model.EventObserver
 import com.inventiv.multipaysdk.data.model.Resource
+import com.inventiv.multipaysdk.data.model.singleton.MultiPayUser
 import com.inventiv.multipaysdk.databinding.FragmentWalletBinding
 import com.inventiv.multipaysdk.repository.WalletRepository
 import com.inventiv.multipaysdk.ui.addcard.AddCardActivity
@@ -31,6 +32,8 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
     }
 
     private lateinit var listAdapter: WalletAdapter
+
+    private var walletToken: String? = null
 
     override fun onResume() {
         super.onResume()
@@ -52,6 +55,7 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         })
         prepareRecyclerView()
         subscribeWallet()
+        subscribeMatchWallet()
         viewModel.walletsListItem()
 
         requireBinding().buttonAddWallet.setOnClickListener {
@@ -61,7 +65,9 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
             )
         }
         requireBinding().buttonMatch.setOnClickListener {
-
+            walletToken =
+                listAdapter.currentList.find { walletListItem -> walletListItem.isChecked }?.walletResponse?.token
+            walletToken?.let { viewModel.matchWallet(it) }
         }
     }
 
@@ -111,6 +117,25 @@ internal class WalletFragment : BaseFragment<FragmentWalletBinding>() {
                     showSnackBarAlert(resource.message)
                     setLayoutProgressVisibility(View.GONE)
                     showHideEmptyListText(true)
+                }
+            }
+        })
+    }
+
+    private fun subscribeMatchWallet() {
+        viewModel.matchWalletResult.observe(viewLifecycleOwner, EventObserver { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    setLayoutProgressVisibility(View.VISIBLE)
+                }
+                is Resource.Success -> {
+                    val matchWalletResponse = resource.data
+                    MultiPayUser.walletToken = walletToken
+                    setLayoutProgressVisibility(View.GONE)
+                }
+                is Resource.Failure -> {
+                    showSnackBarAlert(resource.message)
+                    setLayoutProgressVisibility(View.GONE)
                 }
             }
         })

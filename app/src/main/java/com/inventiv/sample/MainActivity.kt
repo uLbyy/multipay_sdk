@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         buttonTest = findViewById(R.id.btn_test_env)
         buttonTest.setOnClickListener {
             MultiPaySdk.setLanguage(Language.EN)
-            MultiPaySdk.startSDKForSubmitConsumer(this, object : MultiPaySdkListener {
+            MultiPaySdk.startSDKForSubmitConsumer(this, "aasdasd", object : MultiPaySdkListener {
                 override fun <T> onSuccess(data: T?) {
                     Log.d("MainActivity", "onSuccess: data = $data")
                 }

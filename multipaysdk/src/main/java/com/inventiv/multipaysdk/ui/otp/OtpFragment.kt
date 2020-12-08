@@ -130,6 +130,7 @@ internal class OtpFragment : BaseFragment<FragmentOtpBinding>() {
                 is Resource.Success -> {
                     when (otpDirectionFrom) {
                         OtpDirectionFrom.LOGIN -> {
+                            requireActivity().finish()
                             startActivityWithListener(
                                 WalletActivity.newIntent(requireActivity()),
                                 requireMultipaySdkListener()

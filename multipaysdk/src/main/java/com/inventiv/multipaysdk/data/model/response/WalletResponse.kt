@@ -15,5 +15,7 @@ internal data class WalletResponse(
     @field:SerializedName("token")
     val token: String?,
     @field:SerializedName("balance")
-    val balance: String?
+    val balance: String?,
+    @field:SerializedName("isSelected")
+    val isSelected: Boolean?
 ) : Parcelable

@@ -1,11 +1,9 @@
 package com.inventiv.multipaysdk.data.api
 
 import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
-import com.inventiv.multipaysdk.data.model.request.AddWallet
-import com.inventiv.multipaysdk.data.model.request.ConfirmOtp
-import com.inventiv.multipaysdk.data.model.request.LoginRequest
-import com.inventiv.multipaysdk.data.model.request.Wallet
+import com.inventiv.multipaysdk.data.model.request.*
 import com.inventiv.multipaysdk.data.model.response.Result
+import com.inventiv.multipaysdk.data.model.singleton.MultiPayUser
 
 
 internal class ApiService(private val networkManager: NetworkManager) {
@@ -35,26 +33,67 @@ internal class ApiService(private val networkManager: NetworkManager) {
     }
 
     fun walletRequest(
-        wallet: Wallet,
         networkCallback: NetworkCallback<Result>
     ) {
-        networkManager.sendRequest(
-            request = wallet,
-            requestPath = "wallets/list",
-            responseModel = Result::class.java,
-            networkCallback = networkCallback
-        )
+        if (MultiPayUser.walletToken.isNullOrEmpty()) {
+            networkManager.sendRequest(
+                request = AuthWallet(),
+                requestPath = "wallets/list",
+                responseModel = Result::class.java,
+                networkCallback = networkCallback
+            )
+        } else {
+            networkManager.sendRequest(
+                request = Wallet(),
+                requestPath = "wallets/list",
+                responseModel = Result::class.java,
+                networkCallback = networkCallback
+            )
+        }
     }
 
     fun addWalletRequest(
-        addWallet: AddWallet,
+        addWalletRequest: AddWalletRequest,
         networkCallback: NetworkCallback<Result>
     ) {
-        networkManager.sendRequest(
-            request = addWallet,
-            requestPath = "wallets",
-            responseModel = Result::class.java,
-            networkCallback = networkCallback
-        )
+        when (addWalletRequest) {
+            is AuthAddWallet -> {
+                networkManager.sendRequest(
+                    request = addWalletRequest,
+                    requestPath = "wallets",
+                    responseModel = Result::class.java,
+                    networkCallback = networkCallback
+                )
+            }
+            is AddWallet -> {
+                networkManager.sendRequest(
+                    request = addWalletRequest,
+                    requestPath = "wallets",
+                    responseModel = Result::class.java,
+                    networkCallback = networkCallback
+                )
+            }
+        }
+    }
+
+    fun matchWalletRequest(
+        walletToken: String,
+        networkCallback: NetworkCallback<Result>
+    ) {
+        if (MultiPayUser.walletToken.isNullOrEmpty()) {
+            networkManager.sendRequest(
+                request = MatchWallet(walletToken),
+                requestPath = "wallets/select",
+                responseModel = Result::class.java,
+                networkCallback = networkCallback
+            )
+        } else {
+            networkManager.sendRequest(
+                request = MatchWallet(walletToken),
+                requestPath = "wallets/change",
+                responseModel = Result::class.java,
+                networkCallback = networkCallback
+            )
+        }
     }
 }

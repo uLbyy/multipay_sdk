@@ -1,8 +1,10 @@
 package com.inventiv.multipaysdk
 
 import android.content.Context
+import com.inventiv.multipaysdk.data.model.singleton.MultiPayUser
 import com.inventiv.multipaysdk.data.model.type.Language
 import com.inventiv.multipaysdk.ui.login.LoginActivity
+import com.inventiv.multipaysdk.ui.wallet.WalletActivity
 import com.inventiv.multipaysdk.util.startActivityWithListener
 
 object MultiPaySdk {
@@ -28,7 +30,16 @@ object MultiPaySdk {
     fun setLanguage(language: Language) = getComponent().setLanguage(language)
 
     @JvmStatic
-    fun startSDKForSubmitConsumer(context: Context, listener: MultiPaySdkListener) {
-        context.startActivityWithListener(LoginActivity.newIntent(context), listener)
+    fun startSDKForSubmitConsumer(
+        context: Context,
+        walletToken: String?,
+        listener: MultiPaySdkListener
+    ) {
+        if (walletToken.isNullOrEmpty()) {
+            context.startActivityWithListener(LoginActivity.newIntent(context), listener)
+        } else {
+            MultiPayUser.walletToken = walletToken
+            context.startActivityWithListener(WalletActivity.newIntent(context), listener)
+        }
     }
 }

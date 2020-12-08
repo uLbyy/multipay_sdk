@@ -64,6 +64,7 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     setLayoutProgressVisibility(View.VISIBLE)
                 }
                 is Resource.Success -> {
+                    requireActivity().finish()
                     val loginResponse = resource.data
                     startActivityWithListener(
                         OtpActivity.newIntent(

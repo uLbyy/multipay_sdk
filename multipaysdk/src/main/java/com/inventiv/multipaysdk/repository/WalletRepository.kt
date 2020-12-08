@@ -8,9 +8,10 @@ import com.inventiv.multipaysdk.data.api.callback.NetworkCallback
 import com.inventiv.multipaysdk.data.api.error.ApiError
 import com.inventiv.multipaysdk.data.model.Event
 import com.inventiv.multipaysdk.data.model.Resource
-import com.inventiv.multipaysdk.data.model.request.AddWallet
-import com.inventiv.multipaysdk.data.model.request.Wallet
+import com.inventiv.multipaysdk.data.model.request.AddWalletRequest
+import com.inventiv.multipaysdk.data.model.request.AuthAddWallet
 import com.inventiv.multipaysdk.data.model.response.AddWalletResponse
+import com.inventiv.multipaysdk.data.model.response.MatchWalletResponse
 import com.inventiv.multipaysdk.data.model.response.Result
 import com.inventiv.multipaysdk.data.model.response.WalletsResponse
 import com.inventiv.multipaysdk.ui.wallet.WalletListItem
@@ -22,17 +23,19 @@ internal class WalletRepository(private val apiService: ApiService) {
 
     private val walletsResult =
         MediatorLiveData<Event<Resource<List<WalletListItem>>>>()
+    private val matchWalletResult =
+        MediatorLiveData<Event<Resource<MatchWalletResponse>>>()
 
-    fun addWallet(addWallet: AddWallet): LiveData<Event<Resource<AddWalletResponse>>> {
+    fun addWallet(addWalletRequest: AddWalletRequest): LiveData<Event<Resource<AddWalletResponse>>> {
 
         addWalletResult.postValue(Event(Resource.Loading()))
 
-        apiService.addWalletRequest(addWallet, object : NetworkCallback<Result> {
+        apiService.addWalletRequest(addWalletRequest, object : NetworkCallback<Result> {
             override fun onSuccess(response: Result?) {
                 val gson = MultiPaySdk.getComponent().gson()
                 val addWalletResponse = gson.fromJson<AddWalletResponse>(
                     response?.result,
-                    AddWallet::class.java
+                    AuthAddWallet::class.java
                 )
                 addWalletResult.postValue(Event(Resource.Success(addWalletResponse)))
             }
@@ -49,7 +52,7 @@ internal class WalletRepository(private val apiService: ApiService) {
 
         walletsResult.postValue(Event(Resource.Loading()))
 
-        apiService.walletRequest(Wallet(), object : NetworkCallback<Result> {
+        apiService.walletRequest(object : NetworkCallback<Result> {
             override fun onSuccess(response: Result?) {
                 val gson = MultiPaySdk.getComponent().gson()
                 val walletsResponse = gson.fromJson<WalletsResponse>(
@@ -72,8 +75,37 @@ internal class WalletRepository(private val apiService: ApiService) {
     fun mapWalletsResponseToWalletListItem(walletsResponse: WalletsResponse?): List<WalletListItem> {
         val walletListItemList: MutableList<WalletListItem> = mutableListOf()
         walletsResponse?.wallets?.forEach {
-            walletListItemList.add(WalletListItem(it))
+            val walletListItem = if (it.isSelected != null) {
+                WalletListItem(it, it.isSelected)
+            } else {
+                WalletListItem(it)
+            }
+            walletListItemList.add(walletListItem)
         }
         return walletListItemList
+    }
+
+    fun matchWallet(walletToken: String): LiveData<Event<Resource<MatchWalletResponse>>> {
+
+        matchWalletResult.postValue(Event(Resource.Loading()))
+
+        apiService.matchWalletRequest(walletToken, object : NetworkCallback<Result> {
+            override fun onSuccess(response: Result?) {
+                val gson = MultiPaySdk.getComponent().gson()
+                val matchWalletResponse = gson.fromJson<MatchWalletResponse>(
+                    response?.result,
+                    MatchWalletResponse::class.java
+                )
+                matchWalletResult.postValue(
+                    Event(Resource.Success(matchWalletResponse))
+                )
+            }
+
+            override fun onError(error: ApiError) {
+                matchWalletResult.postValue(Event(Resource.Failure(error.message)))
+            }
+        })
+
+        return matchWalletResult
     }
 }

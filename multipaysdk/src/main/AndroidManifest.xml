@@ -25,7 +25,7 @@
 
         <activity
             android:name=".ui.wallet.WalletActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MultiPaySdk"
             android:windowSoftInputMode="adjustResize" />

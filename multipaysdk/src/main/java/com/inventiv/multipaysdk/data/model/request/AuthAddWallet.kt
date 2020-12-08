@@ -6,7 +6,7 @@ import com.inventiv.multipaysdk.MultiPaySdk
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-internal data class AddWallet(
+internal data class AuthAddWallet(
     @field:SerializedName("number")
     var number: String,
     @field:SerializedName("cvv")
@@ -15,4 +15,4 @@ internal data class AddWallet(
     var alias: String,
     @field:SerializedName("referenceNumber")
     var referenceNumber: String = MultiPaySdk.getComponent().clientReferenceNo()
-) : Parcelable, BaseWalletTokenRequest(), AddWalletRequest
+) : Parcelable, BaseAuthRequest(), AddWalletRequest
